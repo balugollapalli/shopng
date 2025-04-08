@@ -289,7 +289,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ category.name }}</h5>
                     <p class="card-text">{{ category.description|truncatewords:15 }}</p>
-                    <a href="{% url 'store:product_list_by_category' category.slug %}" class="btn btn-outline-primary">View Products</a>
+                    <a href="{% url 'store:category_detail' category.slug %}" class="btn btn-outline-primary">View Products</a>
                 </div>
             </div>
         </div>
@@ -317,9 +317,19 @@
                     </div>
                 {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
+                    <h5 class="card-title">{{ product.name }}
+                        <span class="badge bg-success ms-2">
+                            {{ product.discount_percentage }}% Off
+                        </span>
+                    </h5>
+
                     <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
-                    <p class="card-text fw-bold">{{ product.price|currency }}</p>
+                    <p class="card-text">
+                        <span class="fw-bold text-danger">{{ product.price|currency }}</span>
+                        {% if product.original_price and product.original_price > product.price %}
+                            <del class="text-muted ms-2">{{ product.original_price|currency }}</del>
+                        {% endif %}
+                    </p>
                 </div>
                 <div class="card-footer bg-white border-top-0">
                     <div class="d-grid">

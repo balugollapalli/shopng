@@ -104,12 +104,78 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = ProductManager()
-
+    class Meta:
+        ordering = ('-created',)
+        indexes = [models.Index(fields=['id', 'slug']),models.Index(fields=['name', 'slug']),]
+    
+    def save(self, *args, **kwargs):
+        if self.price is not None and self.discount_percentage and not self.original_price:
+            self.original_price = self.price / (1 - (Decimal(self.discount_percentage) / 100))
+        elif self.original_price and self.price:
+            if self.original_price > self.price:
+                self.discount_percentage = int(
+                    ((self.original_price - self.price) / self.original_price) * 100
+                )
+            else:
+                self.discount_percentage = 0
+        elif self.original_price and self.discount_percentage and not self.price:
+            discount_amount = (self.original_price * Decimal(self.discount_percentage)) / Decimal(100)
+            self.price = self.original_price - discount_amount
+        if not self.slug:
+            self.slug = self.generate_unique_slug()
+        super().save(*args, **kwargs)
+        
+    def generate_unique_slug(self):
+        base_slug = slugify(self.name)
+        unique_slug = base_slug
+        counter = 1
+        while Product.objects.filter(slug=unique_slug).exists():
+            unique_slug = f"{base_slug}-{counter}"
+            counter += 1
+        return unique_slug
+    
+    def __str__(self):
+        return self.name
+    def get_absolute_url(self):
+        return reverse('store:product_detail', args=[self.slug])
+    
+    def get_reviews(self):
+        return self.reviews.all().order_by('-created_at')
+    
+    def average_rating(self):
+        return self.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+    
+    def total_reviews(self):
+        return self.reviews.count()
+    def rating_distribution(self):
+        total_reviews = self.total_reviews()
+        distribution = {
+            1: {'count': 0, 'percentage': 0},
+            2: {'count': 0, 'percentage': 0},
+            3: {'count': 0, 'percentage': 0},
+            4: {'count': 0, 'percentage': 0},
+            5: {'count': 0, 'percentage': 0}
+        }
+        rating_counts = self.reviews.values('rating').annotate(count=Count('rating'))
+        for item in rating_counts:
+            rating = item['rating']
+            count = item['count']
+            distribution[rating]['count'] = count
+            distribution[rating]['percentage'] = (count / total_reviews * 100) if total_reviews > 0 else 0
+        return distribution
+    
+    def is_in_stock(self):
+        return self.stock > 0 
+    
+    def get_discounted_price(self):
+        return self.price if self.discount_percentage == 0 else self.original_price
+        
     def related_products(self, limit=4):
         return Product.objects.filter(
             Q(category=self.category) | Q(brand=self.brand),
             available=True  
-        ).exclude(id=self.id).order_by('?')[:limit]  
+        ).exclude(id=self.id).order_by('?')[:limit] 
+         
 
 
 class ProductVariation(models.Model):  

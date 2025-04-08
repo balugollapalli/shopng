@@ -20,7 +20,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 def home(request):
-    products = Product.objects.filter(available=True)[:8]
+    products = Product.objects.filter(available=True).annotate(
+        discount_amount=F('original_price') - F('price')
+    )[:8]
     categories = Category.objects.all()[:6]
     featured_brands = Brand.objects.annotate(num_products=Count('products')).filter(num_products__gt=0)[:6]
     return render(request, 'store/home.html', {

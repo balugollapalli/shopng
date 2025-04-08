@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">All Categories</h1>
+    
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'store:category_detail' category.slug %}">
+                                {{ category.name }}
+                            </a>
+                        </h5>
+                        <p class="card-text">{{ category.description|truncatewords:20 }}</p>
+                        <p class="text-muted">Brands: {{ category.brands.count }}</p>
+                        <p class="text-muted">Products: {{ category.get_product_count }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'store:category_detail' category.slug %}" class="btn btn-outline-primary w-100">
+                            View Category
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">No categories available.</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

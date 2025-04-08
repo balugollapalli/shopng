@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block extra_css%}
+<style>
+    .card {
+      border-radius: 12px;
+    }
+  
+    .card-header {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+  
+    .btn {
+      border-radius: 8px;
+    }
+  
+    form .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+  </style>
+  
+{%endblock%}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light px-3 py-2 rounded shadow-sm">
+        <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">My Account</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'store:manage_addresses' %}">My Addresses</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Address</li>
+    </ol>
+  </nav>
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Edit Address</h4>
+    </div>
+    <div class="card-body">
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <div class="d-flex justify-content-between mt-4">
+          <button type="submit" class="btn btn-success px-4">💾 Save Changes</button>
+          <a href="{% url 'store:manage_addresses' %}" class="btn btn-secondary px-4">↩ Cancel</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

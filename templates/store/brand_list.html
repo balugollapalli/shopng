@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block title %}Brands - Shopng{% endblock %}
+{%block extra_css%}
+<style>
+    .brand-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .brand-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .brand-logo {
+        filter: grayscale(30%);
+        transition: filter 0.3s ease;
+    }
+    
+    .brand-card:hover .brand-logo {
+        filter: grayscale(0);
+    }
+    </style>
+{%endblock%}
+{% block content %}
+<div class="container">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Brands</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5">Our Brands</h1>
+            <p class="lead text-muted">Discover amazing products from top brands</p>
+        </div>
+    </div>
+
+    <!-- Brand Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form class="d-flex" id="brand-search-form">
+                <input class="form-control me-2" 
+                       type="search" 
+                       placeholder="Search brands" 
+                       aria-label="Search"
+                       id="brand-search-input">
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <div class="btn-group" role="group" aria-label="Brand Filter">
+                <button type="button" class="btn btn-outline-secondary active" data-filter="all">All Brands</button>
+                <button type="button" class="btn btn-outline-secondary" data-filter="electronics">Electronics</button>
+                <button type="button" class="btn btn-outline-secondary" data-filter="fashion">Fashion</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brands Grid -->
+    <div class="row" id="brands-grid">
+        {% for brand in brands %}
+            <div class="col-md-3 col-sm-6 mb-4 brand-item" 
+                 data-category="{{ brand.categories.first.name|lower|default:'all' }}">
+                <div class="card h-100 brand-card">
+                    <div class="card-header text-center bg-white border-0 pt-4">
+                        {% if brand.logo %}
+                            <img src="{{ brand.logo.url }}" 
+                                 alt="{{ brand.name }} Logo" 
+                                 class="brand-logo img-fluid mb-3" 
+                                 style="max-height: 150px; object-fit: contain;">
+                        {% else %}
+                            <div class="bg-light p-4 text-center rounded">
+                                <i class="fas fa-image fa-4x text-muted"></i>
+                                <p class="mt-2 text-muted">No Logo</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ brand.name }}</h5>
+                        <div class="brand-stats text-muted mb-3">
+                            <span>
+                                <i class="fas fa-box me-2"></i>
+                                {{ brand.get_product_count }} Products
+                            </span>
+                        </div>
+                        
+                        {% if brand.founded_year %}
+                            <p class="text-muted">
+                                <small>Founded in {{ brand.founded_year }}</small>
+                            </p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-footer bg-white border-0 pb-4">
+                        <div class="d-grid">
+                            <a href="{% url 'store:brand_detail' brand.slug %}" 
+                               class="btn btn-outline-primary">
+                                View Brand
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Results Message -->
+    <div id="no-results" class="row d-none">
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <p class="lead">No brands found matching your search.</p>
+                <button id="reset-search" class="btn btn-primary mt-2">Reset Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Breadcrumb Hover Effect
+    const breadcrumbItems = document.querySelectorAll('.breadcrumb-item a');
+    breadcrumbItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.classList.add('text-primary');
+        });
+        item.addEventListener('mouseleave', () => {
+            item.classList.remove('text-primary');
+        });
+    });
+
+    // Brand Search and Filter Functionality
+    const brandSearchForm = document.getElementById('brand-search-form');
+    const brandSearchInput = document.getElementById('brand-search-input');
+    const brandsGrid = document.getElementById('brands-grid');
+    const noResultsMessage = document.getElementById('no-results');
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const resetSearchBtn = document.getElementById('reset-search');
+
+    // Search functionality
+    brandSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        filterBrands();
+    });
+
+    brandSearchInput.addEventListener('input', filterBrands);
+
+    // Category filter
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            filterBrands();
+        });
+    });
+
+    // Reset search
+    resetSearchBtn.addEventListener('click', () => {
+        brandSearchInput.value = '';
+        filterButtons.forEach(btn => {
+            btn.classList.remove('active');
+            document.querySelector('[data-filter="all"]').classList.add('active');
+        });
+        filterBrands();
+    });
+
+    function filterBrands() {
+        const searchTerm = brandSearchInput.value.toLowerCase();
+        const activeFilter = document.querySelector('[data-filter].active').dataset.filter;
+        const brandItems = document.querySelectorAll('.brand-item');
+        let visibleBrands = 0;
+
+        brandItems.forEach(item => {
+            const brandName = item.querySelector('.card-title').textContent.toLowerCase();
+            const brandCategory = item.dataset.category;
+
+            const matchesSearch = brandName.includes(searchTerm);
+            const matchesCategory = activeFilter === 'all' || brandCategory === activeFilter;
+
+            if (matchesSearch && matchesCategory) {
+                item.style.display = 'block';
+                visibleBrands++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Show/hide no results message
+        noResultsMessage.classList.toggle('d-none', visibleBrands > 0);
+    }
+});
+</script>
+
+{% endblock %}

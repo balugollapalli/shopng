@@ -1,0 +1,30 @@
+{% extends 'providers/vendor_base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href="{% url 'providers:vendor_brand_list' %}" class="list-group-item list-group-item-action">
+                Brands
+            </a>
+            <a href="{% url 'providers:vendor_category_list' %}" class="list-group-item list-group-item-action">
+                Categories
+            </a>
+            <a href="{% url 'providers:vendor_product_list' %}" class="list-group-item list-group-item-action">
+                Products
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="col-md-9">
+        <h2 class="mb-4">Welcome, {{ user.get_full_name|default:user.email }}</h2>
+        <p class="lead">Use the menu on the left to manage your store items.</p>
+    </div>
+</div>
+<div class="col-md-9" style="width:100%;height:fit-content">
+    {% block content2 %}{% endblock %}
+</div>
+{% endblock %}

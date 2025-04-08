@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load store_tags %}
+{% block title %}My Account - Shopng{% endblock %}
+
+{% block extra_css %}
+<style>
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <!-- Navigation Sidebar -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Account Menu</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'accounts:profile' %}" class="list-group-item list-group-item-action active" data-toggle="tab">Profile</a>
+                <a href="{% url 'store:order_history'%}" class="list-group-item list-group-item-action" data-toggle="tab">Order History</a>
+                <a href="{% url 'store:manage_addresses' %}" class="list-group-item list-group-item-action" data-toggle="tab">Addresses</a>
+                <a href="{% url 'accounts:logout' %}" class="list-group-item list-group-item-action text-danger">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="tab-content">
+            <!-- Profile Tab -->
+            <div class="tab-pane fade show active" id="profile">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Profile Information</h5>
+                        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="profile-edit-container mx-auto" style="width: 150px; height: 150px;">
+                                    {% if profile.profile_photo %}
+                                        <img src="{{ profile.profile_photo.url }}" alt="Profile" class="rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-secondary text-white" style="width: 150px; height: 150px; font-size: 3rem;">
+                                            {{ user.username.0|upper }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <h5 class="mt-3">{{ user.full_name }}</h5>
+                                <p class="text-muted">@{{ user.username }}</p>
+                            </div>
+                            <div class="col-md-8">
+                                <p><strong>Full Name:</strong> {{ user.full_name }}</p>
+                                <p><strong>Email:</strong> {{ user.email }}</p>
+                                <p><strong>Date of Birth:</strong> {% if profile.date_of_birth %}{{ profile.date_of_birth }}{% else %}Not provided{% endif %}</p>
+                                <p><strong>Phone Number:</strong> {% if profile.phone_number %}{{ profile.phone_number }}{% else %}Not provided{% endif %}</p>
+                                <p><strong>Address:</strong> {% if profile.address %}{{ profile.address }}{% else %}Not provided{% endif %}</p>
+                                <p><strong>Account Created:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div class="tab-pane fade" id="orders">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order History</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if orders %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Order #</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                        <tr>
+                                            <td>{{ order.order_number }}</td>
+                                            <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                            <td>
+                                                <span class="badge {% if order.status == 'Delivered' %}bg-success{% elif order.status == 'Processing' %}bg-warning{% elif order.status == 'Shipped' %}bg-info{% else %}bg-secondary{% endif %}">
+                                                    {{ order.status }}
+                                                </span>
+                                            </td>
+                                            <td>{{ order.total|currency }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <p>You haven't placed any orders yet.</p>
+                                <a href="{% url 'store:product_list' %}" class="btn btn-primary">Start Shopping</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Addresses Tab -->
+            <div class="tab-pane fade" id="addresses">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">My Addresses</h5>
+                        <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#addAddressModal">Add New</button>
+                    </div>
+                    <div class="card-body">
+                        {% if addresses %}
+                            <div class="row">
+                                {% for address in addresses %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                {{ address.address_type }}
+                                                {% if address.is_default %}
+                                                    <span class="badge bg-primary">Default</span>
+                                                {% endif %}
+                                            </h6>
+                                            <address class="mb-0">
+                                                {{ address.street_address }}<br>
+                                                {% if address.apartment_address %}{{ address.apartment_address }}<br>{% endif %}
+                                                {{ address.city }}, {{ address.state }} {{ address.zip_code }}<br>
+                                                {{ address.country }}
+                                            </address>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-between">
+                                            <button class="btn btn-sm btn-outline-primary edit-address-btn" 
+                                                    data-id="{{ address.id }}"
+                                                    data-toggle="modal" 
+                                                    data-target="#editAddressModal">Edit</button>
+                                            {% if not address.is_default %}
+                                            <form method="post" action="{% url 'store:set_default_address' address.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-success">Set as Default</button>
+                                            </form>
+                                            <form method="post" action="{% url 'store:delete_address' address.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <p>You haven't added any addresses yet.</p>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#addAddressModal">Add Address</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Address Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <!-- Add form markup here -->
+</div>
+
+<!-- Edit Address Modal -->
+<div class="modal fade" id="editAddressModal" tabindex="-1" role="dialog" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="edit-address-form" method="post" action="">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    {{ address_form }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        $('a[data-toggle="tab"]').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('.edit-address-btn').click(function () {
+            const addressId = $(this).data('id');
+            $('#edit-address-form').attr('action', `/address/${addressId}/update/`);
+
+            $.get(`/address/${addressId}/get/`, function (data) {
+                $.each(data, function (key, value) {
+                    $(`#edit-address-form #id_${key}`).val(value);
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

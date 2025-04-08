@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Profile - Shopng{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: none;
+        border-radius: 1rem 1rem 0 0;
+        text-align: center;
+    }
+
+    .profile-edit-container {
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .profile-img-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ccc;
+        color: #fff;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        font-size: 4rem;
+    }
+
+    .profile-edit-overlay {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 40%;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
+
+    .profile-edit-overlay:hover {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .profile-img {
+        object-fit: cover;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+    }
+
+    .btn {
+        min-width: 120px;
+    }
+
+    @media (max-width: 576px) {
+        .profile-edit-container {
+            width: 120px !important;
+            height: 120px !important;
+        }
+
+        .profile-img,
+        .profile-img-placeholder {
+            width: 120px;
+            height: 120px;
+            font-size: 2.5rem;
+        }
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Your Profile</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="text-center mb-4">
+                        <div class="profile-edit-container mx-auto" style="width: 150px; height: 150px;">
+                            {% if profile.profile_photo %}
+                                <img id="profile-preview" src="{{ profile.profile_photo.url }}" alt="Profile" class="profile-img">
+                            {% else %}
+                                <div class="profile-img-placeholder">
+                                    {{ user.username.0|upper }}
+                                </div>
+                            {% endif %}
+                            <div class="profile-edit-overlay">
+                                <label for="id_profile_photo" class="mb-0">
+                                    <i class="fas fa-camera fa-2x text-white"></i>
+                                </label>
+                            </div>
+                        </div>
+                        {{ form.profile_photo|as_crispy_field }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.date_of_birth|as_crispy_field }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.phone_number|as_crispy_field }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.address|as_crispy_field }}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_profile_photo');
+        if (fileInput) {
+            fileInput.style.display = 'none';
+
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const container = document.querySelector('.profile-edit-container');
+
+                        // Remove placeholder if it exists
+                        const placeholder = container.querySelector('.profile-img-placeholder');
+                        if (placeholder) {
+                            placeholder.remove();
+                        }
+
+                        // Get or create the img element
+                        let img = document.getElementById('profile-preview');
+                        if (!img) {
+                            img = document.createElement('img');
+                            img.id = 'profile-preview';
+                            img.className = 'profile-img';
+                            container.prepend(img);
+                        }
+
+                        // Set preview image
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

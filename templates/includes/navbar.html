@@ -1,0 +1,552 @@
+{% load store_tags %}
+{% get_categories as categories %}
+
+{% block extra_css %}
+<style>
+    .mobile-categories-content a.active,
+    .dropdown-menu .dropdown-item.active {
+        background-color: #007bff;
+        color: white !important;
+    }
+    /* Responsive Navbar Styles */
+    @media (max-width: 996px){
+        .position-move {
+            position: absolute;
+            right: 10px;
+            color: #666;
+        }
+        .navbar {
+            position: relative;
+        }
+
+        .navbar-collapse {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 250px;
+            background-color: #343a40;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1050;
+            padding: 15px;
+        }
+        
+        
+
+        .navbar-collapse.show {
+            display: block;
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+        
+
+        /* Mobile Categories Dropdown Styles */
+        .mobile-categories-section {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .mobile-categories-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .mobile-categories-content {
+            display: none;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .mobile-categories-content.show {
+            display: block;
+        }
+
+        .mobile-categories-content a {
+            display: block;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .mobile-categories-content a:last-child {
+            border-bottom: none;
+        }
+
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate-icon.active {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: static;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        /* Centered Search Bar */
+        .centered-search-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1050;
+            padding: 15px;
+        }
+
+        .centered-search-container.show {
+            display: block;
+        }
+
+        /* Mobile Search Toggle Button */
+        .mobile-search-toggle {
+            position: absolute;
+            top: 50%;
+            right: 74px;
+            transform: translateY(-50%);
+        }
+
+        /* Wishlist Styling for Mobile */
+        .wishlist {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .wishlist .nav-link {
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .wishlist .badge {
+            margin-left: 5px;
+        }
+        
+    }
+
+    /* Desktop Styles */
+    @media (min-width: 997px){
+        [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+            cursor: pointer;
+            border: none;
+        }
+        
+        /* Categories Dropdown Enhancements */
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .search-form{
+            margin-left: 30px;
+        }
+       
+        .mobile-categories-content{
+            display:none;
+        }
+        
+        .form-control{
+            padding-left:30px;
+        }
+        .search-forn{
+            margin-left: 30px;
+        }
+        .dropdown-menu {
+            margin-top: 0;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px;
+            min-width: 300px;
+        }
+
+        .dropdown-menu .category-group {
+            margin-bottom: 15px;
+        }
+
+        .dropdown-menu .category-group h6 {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .dropdown-menu .category-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .dropdown-menu .category-list li {
+            margin-bottom: 5px;
+        }
+
+        .dropdown-menu .category-list li a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .dropdown-menu .category-list li a:hover {
+            color: #007bff;
+            padding-left: 5px;
+        }
+
+        /* Wishlist Styling */
+        .wishlist {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .wishlist .nav-link {
+            display: flex;
+            align-items: center;
+            color: rgba(255,255,255,0.7);
+            transition: color 0.3s ease;
+        }
+
+        .wishlist .nav-link:hover {
+            color: white;
+        }
+
+        .wishlist .badge {
+            margin-left: 5px;
+            background-color: #dc3545;
+        }
+
+        /* Centered Search */
+        .centered-search-container,
+        .mobile-search-toggle {
+            display: none !important;
+        }
+    }
+
+    /* Existing styles */
+    .auth-log-sign {
+        border: none;
+        background-color: transparent;
+    }
+    .top{
+        display: none;
+        z-index:1000;
+    }
+   
+    .fa-search:before {
+        content: "\f002";
+        color:#666
+    }
+
+</style>
+{% endblock %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark position-relative">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'store:home' %}">
+            <i class="fas fa-shopping-cart"></i> Shopng
+        </a>
+
+        <!-- Mobile Search Toggle -->
+        <button class="btn btn-outline-light mobile-search-toggle d-md-none position-move">
+            <i class="fas fa-search"></i>
+        </button>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Desktop Search -->
+        <form class="d-none d-md-flex search-form position-absolute top-50 start-50 translate-middle" 
+              action="{% url 'store:product_list' %}" method="get" style="width: 40%;">
+            <input class="form-control me-2 search-form" type="search" name="query" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light position-move" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'store:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'store:product_list' %}">All Products</a>
+                </li>
+                <li class="nav-item dropdown mobile-categories-section">
+                    <!-- Mobile Categories Toggle -->
+                    <div class="mobile-categories-header d-lg-none" id="mobileCategoriesToggle">
+                        <span>Categories</span>
+                        <i class="fas fa-chevron-down rotate-icon" id="categoriesToggleIcon"></i>
+                    </div>
+
+                    <!-- Mobile Categories Content -->
+                    <div class="mobile-categories-content top" id="mobileCategoriesContent">
+                        {% for category in categories %}
+                            <a href="{% url 'store:category_detail' category.slug %}"
+                               class="{% if request.GET.category == category.slug %}active{% endif %}">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Desktop Categories Dropdown -->
+                    <a class="nav-link dropdown-toggle d-none d-lg-block" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu top" aria-labelledby="navbarDropdown">
+                        {% regroup categories|dictsort:"name" by name|slice:":1" as category_groups %}
+                        {% for group in category_groups %}
+                            <div class="category-group">
+                                <h6>{{ group.grouper|upper }}</h6>
+                                <ul class="category-list">
+                                    {% for category in group.list %}  <!-- Iterate over group.list -->
+                                        <li>
+                                            <a class="dropdown-item {% if request.GET.category == category.slug %}active{% endif %}"
+                                               href="{% url 'store:category_detail' category.slug %}">
+                                                {{ category.name }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Wishlist -->
+            <div class="nav-item wishlist">
+                <a href="{% url 'store:wishlist' %}" class="nav-link">
+                    <i class="far fa-heart me-2"></i> Wishlist
+                    <span id="wishlist-count" class="badge bg-danger ms-2">
+                        {{ wishlist_count }}
+                    </span>
+                </a>
+            </div>
+
+            <div class="d-flex">
+                <a href="{% url 'store:cart' %}" class="btn btn-outline-light me-2 auth-log-sign">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <span class="badge bg-danger cart-badge" id="cart-badge">
+                        {{ cart_count }}
+                    </span>
+                </a>
+
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> {{ user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">My Account</a></li>
+                            <li>
+                                <form id="logout-form" method="post" action="{% url 'accounts:logout' %}" style="display: none;">
+                                    {% csrf_token %}
+                                </form>
+                                <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="btn btn-outline-light me-2 auth-log-sign">Login</a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-primary auth-log-sign">Register</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Centered Search Container for Mobile -->
+        <div class="centered-search-container">
+            <form action="{% url 'store:product_list' %}" method="get">
+                <div class="input-group">
+                    <input type="search" 
+                           class="form-control search-form"
+                           name="query" 
+                           placeholder="Search products..." 
+                           aria-label="Search">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    function highlightCurrentCategory() {
+        // Get current URL
+        const currentUrl = new URL(window.location.href);
+        const currentCategory = currentUrl.searchParams.get('category');
+
+        if (currentCategory) {
+            // Mobile categories
+            const mobileCategoryLinks = document.querySelectorAll('.mobile-categories-content a');
+            mobileCategoryLinks.forEach(link => {
+                const linkUrl = new URL(link.href);
+                const linkCategory = linkUrl.searchParams.get('category');
+                link.classList.toggle('active', linkCategory === currentCategory);
+            });
+
+            // Desktop category dropdown
+            const desktopCategoryLinks = document.querySelectorAll('.dropdown-menu .dropdown-item');
+            desktopCategoryLinks.forEach(link => {
+                const linkUrl = new URL(link.href);
+                const linkCategory = linkUrl.searchParams.get('category');
+                link.classList.toggle('active', linkCategory === currentCategory);
+            });
+        }
+    }
+
+    // Call the highlighting function
+    highlightCurrentCategory();
+    // DOM Elements
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    const mobileSearchToggle = document.querySelector('.mobile-search-toggle');
+    const centeredSearchContainer = document.querySelector('.centered-search-container');
+
+    // Mobile Categories Dropdown
+    const mobileCategoriesToggle = document.getElementById('mobileCategoriesToggle');
+    const mobileCategoriesContent = document.getElementById('mobileCategoriesContent');
+    const categoriesToggleIcon = document.getElementById('categoriesToggleIcon');
+
+    // Desktop Category Dropdown
+    const categoryDropdown = document.querySelector('#navbarDropdown');
+    const categoryDropdownMenu = categoryDropdown ? categoryDropdown.nextElementSibling : null;
+
+    // Toggle Mobile Menu
+    navbarToggler.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navbarCollapse.classList.toggle('show');
+        
+        // Close search if open
+        centeredSearchContainer.classList.remove('show');
+    });
+
+    // Prevent closing navbar collapse when clicking inside
+    navbarCollapse.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Toggle Mobile Categories
+    mobileCategoriesToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileCategoriesContent.classList.toggle('show');
+        categoriesToggleIcon.classList.toggle('active');
+    });
+
+    // Prevent closing categories content when clicking inside
+    mobileCategoriesContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Toggle Mobile Search
+    mobileSearchToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        centeredSearchContainer.classList.toggle('show');
+        
+        // Close menu if open
+        navbarCollapse.classList.remove('show');
+        
+        // Close mobile categories
+        mobileCategoriesContent.classList.remove('show');
+        categoriesToggleIcon.classList.remove('active');
+    });
+
+    // Close menus when clicking outside
+    document.addEventListener('click', (e) => {
+        // Close search container if clicked outside
+        if (!centeredSearchContainer.contains(e.target) && 
+            !mobileSearchToggle.contains(e.target)) {
+            centeredSearchContainer.classList.remove('show');
+        }
+
+        // Close mobile categories if clicked outside
+        if (!mobileCategoriesToggle.contains(e.target) && 
+            !mobileCategoriesContent.contains(e.target)) {
+            mobileCategoriesContent.classList.remove('show');
+            categoriesToggleIcon.classList.remove('active');
+        }
+
+        // Note: We're not closing the navbar collapse here
+    });
+
+    // Close mobile categories when a category is selected
+    const mobileCategoryLinks = document.querySelectorAll('.mobile-categories-content a');
+    mobileCategoryLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Prevent closing the entire navbar collapse
+            e.stopPropagation();
+            
+            // Close categories dropdown
+            mobileCategoriesContent.classList.remove('show');
+            categoriesToggleIcon.classList.remove('active');
+        });
+    });
+
+    // Desktop Category Dropdown Logic
+    if (categoryDropdown && categoryDropdownMenu) {
+        categoryDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = categoryDropdown.getAttribute('aria-expanded') === 'true';
+            
+            // Close any open dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+            document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(toggle => {
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+
+            // Toggle current dropdown
+            if (!isExpanded) {
+                categoryDropdownMenu.classList.add('show');
+                categoryDropdown.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+
+    // Handle link clicks in mobile menu
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Check if the link is not in the categories section
+            if (!link.closest('.mobile-categories-section')) {
+                // Close categories dropdown if it's open
+                mobileCategoriesContent.classList.remove('show');
+                categoriesToggleIcon.classList.remove('active');
+            } else {
+                // Prevent default navigation for categories toggle
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Prevent default behavior for category toggle
+    mobileCategoriesToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+    });
+});
+
+</script>
+{% endblock %}

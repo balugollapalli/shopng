@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load store_tags%}
+{% block title %}{{ brand.name }} - Brands{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'store:brand_list' %}">Brands</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ brand.name }}</li>
+        </ol>
+    </nav>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            {% if brand.logo %}
+                <img src="{{ brand.logo.url }}" 
+                     class="img-fluid rounded" 
+                     alt="{{ brand.name }} Logo">
+            {% else %}
+                <div class="bg-light p-5 text-center rounded">
+                    <h2>{{ brand.name }}</h2>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1>{{ brand.name }}</h1>
+            {% if brand.description %}
+                <p>{{ brand.description }}</p>
+            {% endif %}
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Products:</strong> {{ brand.products.count }}
+                </div>
+                {% if brand.founded_year %}
+                    <div class="col-md-4">
+                        <strong>Founded:</strong> {{ brand.founded_year }}
+                    </div>
+                {% endif %}
+                {% if brand.website %}
+                    <div class="col-md-4">
+                        <strong>Website:</strong> 
+                        <a href="{{ brand.website }}" target="_blank">
+                            {{ brand.website }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h2>Products by {{ brand.name }}</h2>
+            <hr>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% for product in brand.products.all %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" 
+                             class="card-img-top" 
+                             alt="{{ product.name }}">
+                    {% else %}
+                        <div class="bg-light p-4 text-center">
+                            <i class="fas fa-image fa-4x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">
+                            {{ product.description|truncatewords:10 }}
+                        </p>
+                        <p class="card-text fw-bold">
+                            {{ product.price|currency }}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'store:product_detail' product.slug %}" 
+                           class="btn btn-outline-primary w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No products available for this brand.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

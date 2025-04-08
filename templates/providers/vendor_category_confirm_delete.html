@@ -1,0 +1,14 @@
+{% extends 'providers/dashboard.html' %}
+{% load static %}
+
+{% block content2 %}
+<div class="container mt-4">
+    <h2>Delete Category</h2>
+    <p>Are you sure you want to delete the category "{{ category.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'providers:vendor_category_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

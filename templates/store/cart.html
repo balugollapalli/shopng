@@ -1,0 +1,397 @@
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block title %}Your Shopping Cart - Shopng{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Responsive Cart Styles */
+    @media (max-width: 768px) {
+        .cart-table {
+            font-size: 0.9rem;
+        }
+        
+        .cart-table .product-image {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .quantity-control {
+            width: 100%;
+        }
+        
+        .cart-summary {
+            margin-top: 20px;
+        }
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        max-width: 150px;
+    }
+
+    .quantity-control .btn {
+        padding: 0.25rem 0.5rem;
+        line-height: 1.5;
+    }
+
+    .quantity-control .form-control {
+        text-align: center;
+        max-width: 60px;
+        flex-grow: 1;
+    }
+
+    .cart-item-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'store:home' %}">
+                    <i class="fas fa-home me-1"></i> Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <i class="fas fa-shopping-cart me-1"></i> Cart
+            </li>
+        </ol>
+    </nav>
+
+    <h2 class="mb-4">Your Shopping Cart</h2>
+
+    {% if cart_items %}
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <table class="table table-hover cart-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                                <tr data-product-id="{{ item.product.id }}" data-cart-item-key="{{ item.cart_item_key }}">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}" 
+                                                     alt="{{ item.product.name }}" 
+                                                     class="product-image me-3" 
+                                                     style="width: 50px; height: 50px; object-fit: cover;">
+                                            {% else %}
+                                                <div class="bg-light rounded me-3" 
+                                                     style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                            {% endif %}
+                                            <a href="{% url 'store:product_detail' item.product.slug %}">
+                                                {{ item.product.name }}{% if item.variation %} ({{ item.variation.name }}){% endif %}
+                                            </a>
+                                            
+                                        </div>
+                                    </td>
+                                    <td class="product-price">{{ item.price|currency }}</td>
+                                    <td>
+                                        <div class="quantity-control input-group">
+                                            <button class="btn btn-outline-secondary decrease-quantity" 
+                                                    data-cart-item-key="{{ item.cart_item_key }}">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="text" 
+                                                   class="form-control quantity-input" 
+                                                   value="{{ item.quantity }}"
+                                                   data-cart-item-key="{{ item.cart_item_key }}"
+                                                   readonly>
+                                            <button class="btn btn-outline-secondary increase-quantity" 
+                                                    data-cart-item-key="{{ item.cart_item_key }}">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="product-subtotal">{{ item.subtotal|currency }}</td>
+                                    <td>
+                                        <div class="cart-item-actions">
+                                            <button class="btn btn-sm btn-outline-danger remove-from-cart" 
+                                                    data-cart-item-key="{{ item.cart_item_key }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 cart-summary">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Subtotal</span>
+                                <strong id="cart-subtotal">{{ subtotal|currency }}</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Tax (10%)</span>
+                                <strong id="cart-tax">{{ tax|currency }}</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between fw-bold">
+                                <span>Total</span>
+                                <strong id="cart-total">{{ total_with_tax|currency }}</strong>
+                            </li>
+                        </ul>
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="{% url 'store:product_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+                            </a>
+                            <a href="{% url 'store:checkout' %}" class="btn btn-primary">
+                                <i class="fas fa-check me-2"></i>Proceed to Checkout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <p class="mb-3">Your shopping cart is empty.</p>
+            <a href="{% url 'store:product_list' %}" class="btn btn-primary">
+                <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Quantity Increment/Decrement
+        function updateQuantity(cartItemKey, newQuantity) {
+            // If quantity is 0 or less, remove the item
+            if (newQuantity <= 0) {
+                removeFromCart(cartItemKey);
+                return;
+            }
+    
+            fetch('{% url "store:cart_update" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    cart_item_key: cartItemKey,
+                    quantity: newQuantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update quantity input
+                    const quantityInput = document.querySelector(
+                        `.quantity-input[data-cart-item-key="${cartItemKey}"]`
+                    );
+                    const productRow = document.querySelector(
+                        `tr[data-cart-item-key="${cartItemKey}"]`
+                    );
+    
+                    if (quantityInput) {
+                        quantityInput.value = data.quantity;
+                    }
+    
+                    // Update subtotal for this product
+                    if (productRow) {
+                        const priceElement = productRow.querySelector('.product-price');
+                        const subtotalElement = productRow.querySelector('.product-subtotal');
+                        
+                        if (priceElement && subtotalElement) {
+                            const price = parseFloat(priceElement.textContent.replace('$', ''));
+                            const subtotal = (price * data.quantity).toFixed(2);
+                            subtotalElement.textContent = `$${subtotal}`;
+                        }
+                    }
+    
+                    // Update cart totals
+                    updateCartTotals(data);
+    
+                    // Update cart badge
+                    updateCartBadge(data.cart_total_items);
+    
+                    // Show success toast
+                    if (typeof showToast === 'function') {
+                        showToast('Cart updated successfully', 'success');
+                    }
+    
+                    // Reload page if cart is empty
+                    if (data.cart_total_items === 0) {
+                        location.reload();
+                    }
+                } else {
+                    // Show error toast
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || 'Failed to update cart', 'danger');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Cart Update Error:', error);
+                if (typeof showToast === 'function') {
+                    showToast('An error occurred', 'danger');
+                }
+            });
+        }
+    
+        // Remove from Cart Function
+        function removeFromCart(cartItemKey) {
+            // Extract product_id from cart_item_key
+            let productId;
+            if (cartItemKey.includes('-')) {
+                productId = cartItemKey.split('-')[0];
+            } else {
+                productId = cartItemKey;
+            }
+
+            fetch(`/cart/remove/${productId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    cart_item_key: cartItemKey
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove row from table
+                    const productRow = document.querySelector(
+                        `tr[data-cart-item-key="${cartItemKey}"]`
+                    );
+                    if (productRow) {
+                        productRow.remove();
+                    }
+                    
+                    // Update cart totals
+                    updateCartTotals(data);
+                    
+                    // Update cart badge in navbar
+                    updateCartBadge(data.cart_total_items);
+    
+                    // Reload page if cart is empty
+                    if (data.cart_total_items === 0) {
+                        location.reload();
+                    }
+    
+                    // Show success toast
+                    if (typeof showToast === 'function') {
+                        showToast('Item removed from cart', 'success');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Remove Cart Item Error:', error);
+                if (typeof showToast === 'function') {
+                    showToast('An error occurred', 'danger');
+                }
+            });
+        }
+    
+        // Increment Quantity
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+            button.addEventListener('click', function() {
+                const cartItemKey = this.dataset.cartItemKey;
+                const quantityInput = document.querySelector(
+                    `.quantity-input[data-cart-item-key="${cartItemKey}"]`
+                );
+                const currentQuantity = parseInt(quantityInput.value);
+                updateQuantity(cartItemKey, currentQuantity + 1);
+            });
+        });
+    
+        // Decrement Quantity
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+            button.addEventListener('click', function() {
+                const cartItemKey = this.dataset.cartItemKey;
+                const quantityInput = document.querySelector(
+                    `.quantity-input[data-cart-item-key="${cartItemKey}"]`
+                );
+                const currentQuantity = parseInt(quantityInput.value);
+                
+                // If quantity is 1, remove the item
+                if (currentQuantity <= 1) {
+                    removeFromCart(cartItemKey);
+                } else {
+                    updateQuantity(cartItemKey, currentQuantity - 1);
+                }
+            });
+        });
+    
+        // Remove from Cart Buttons
+        document.querySelectorAll('.remove-from-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const cartItemKey = this.dataset.cartItemKey;
+                removeFromCart(cartItemKey);
+            });
+        });
+    
+        // Update Cart Totals Function
+        function updateCartTotals(data) {
+            // Update subtotal
+            const subtotalElement = document.getElementById('cart-subtotal');
+            if (subtotalElement) {
+                subtotalElement.textContent = `$${data.cart_total.toFixed(2)}`;
+            }
+            
+            // Recalculate tax and total
+            const subtotal = parseFloat(data.cart_total);
+            const tax = subtotal * 0.1;
+            const total = subtotal + tax;
+            
+            // Update tax
+            const taxElement = document.getElementById('cart-tax');
+            if (taxElement) {
+                taxElement.textContent = `$${tax.toFixed(2)}`;
+            }
+            
+            // Update total
+            const totalElement = document.getElementById('cart-total');
+            if (totalElement) {
+                totalElement.textContent = `$${total.toFixed(2)}`;
+            }
+        }
+    
+        // Update Cart Badge Function
+        function updateCartBadge(totalItems) {
+            const cartBadge = document.getElementById('cart-count');
+            if (cartBadge) {
+                cartBadge.textContent = totalItems;
+                
+                // Also trigger a custom event that other parts of the app can listen for
+                document.dispatchEvent(new CustomEvent('cart-updated', {
+                    detail: { totalItems: totalItems }
+                }));
+            }
+        }
+    });
+</script>
+{% endblock %}

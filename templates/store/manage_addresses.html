@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% load form_tags %}
+{% block title %}Manage Addresses - Shopng{% endblock %}
+
+{% block extra_css %}
+<style>
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+    .address-card {
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    .address-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .default-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    .address-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">My Account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Manage Addresses</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row g-4">
+        <!-- Address List -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Saved Addresses</h5>
+                    <div>
+                        <button class="btn btn-sm btn-primary" id="addBtn">
+                            <i class="fas fa-plus me-2"></i>Add New Address
+                        </button>
+                        <button class="btn btn-sm btn-secondary d-none" id="cancelBtn">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if addresses %}
+                        <div class="row">
+                            {% for address in addresses %}
+                                <div class="col-md-6 mb-4">
+                                    <div class="card address-card h-100">
+                                        {% if address.is_default %}
+                                            <span class="badge bg-primary default-badge">Default</span>
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                {{ address.name }}
+                                                <small class="text-muted">({{ address.address_type }})</small>
+                                            </h6>
+                                            <p class="card-text">
+                                                {{ address.street_address }}
+                                                {% if address.apartment_address %}, {{ address.apartment_address }}{% endif %}
+                                                <br>
+                                                {{ address.city }}, {{ address.state }} {{ address.postal_code }}
+                                                <br>
+                                                {{ address.country }}
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-phone me-2"></i>{{ address.phone_number }}
+                                                </small>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer bg-white">
+                                            <div class="address-actions">
+                                                <div>
+                                                    {% if not address.is_default %}
+                                                        <form method="post" action="{% url 'store:set_default_address' address.id %}" class="d-inline">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                                <i class="fas fa-check me-2"></i>Set as Default
+                                                            </button>
+                                                        </form>
+                                                    {% endif %}
+                                                </div>
+                                                <div>
+                                                    <a href="{% url 'store:edit_address' address.id %}" class="btn btn-sm btn-outline-primary me-2">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    {% if not address.is_default %}
+                                                        <form method="post" action="{% url 'store:delete_address' address.id %}" class="d-inline delete-address-form">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info text-center">
+                            <i class="fas fa-map-marker-alt fa-4x mb-3"></i>
+                            <p>You haven't added any addresses yet.</p>
+                            <button class="btn btn-primary" id="toggleAddFormBtnEmpty">
+                                Add Your First Address
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Address Form (Hidden initially) -->
+        <div class="col-md-4">
+            <div id="addAddressCard" class="card d-none">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Add New Address
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field|add_class:"form-control" }}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in field.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Address
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteForms = document.querySelectorAll('.delete-address-form');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            if (!confirm('Are you sure you want to delete this address?')) e.preventDefault();
+        });
+    });
+
+    const addBtn = document.getElementById('addBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const addAddressCard = document.getElementById('addAddressCard');
+
+    addBtn?.addEventListener('click', () => {
+        addAddressCard.classList.remove('d-none');
+        addBtn.classList.add('d-none');
+        cancelBtn.classList.remove('d-none');
+    });
+
+    cancelBtn?.addEventListener('click', () => {
+        addAddressCard.classList.add('d-none');
+        cancelBtn.classList.add('d-none');
+        addBtn.classList.remove('d-none');
+    });
+
+    const emptyBtn = document.getElementById('toggleAddFormBtnEmpty');
+    emptyBtn?.addEventListener('click', () => {
+        addAddressCard.classList.remove('d-none');
+        addBtn.classList.add('d-none');
+        cancelBtn.classList.remove('d-none');
+    });
+});
+</script>
+{% endblock %}

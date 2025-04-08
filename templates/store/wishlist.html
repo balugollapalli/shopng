@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load store_tags %}
+{% block title %}My Wishlist - Shopng{% endblock %}
+{% block extra_css %}
+<style>
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+
+    .wishlist-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 50%;
+        padding: 8px;
+        z-index: 10;
+    }
+
+    .wishlist-toggle i {
+        color: #dc3545;
+        transition: transform 0.2s ease;
+    }
+
+    .wishlist-toggle i:hover {
+        transform: scale(1.2);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'store:home' %}">
+                <i class="fas fa-home me-2"></i>Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'store:product_list' %}">Products</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <i class="fas fa-heart me-2"></i>My Wishlist
+        </li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-heart me-2"></i>My Wishlist
+            <span class="badge bg-secondary ms-2">{{ wishlist_items.count }}</span>
+        </h2>
+        {% if wishlist_items %}
+            <a href="{% url 'store:product_list' %}" class="btn btn-outline-primary">
+                Continue Shopping
+            </a>
+        {% endif %}
+    </div>
+
+    {% if wishlist_items %}
+        <div class="row">
+            {% for item in wishlist_items %}
+                <div class="col-md-4 mb-4 wishlist-item" data-product-id="{{ item.product.id }}">
+                    <div class="card h-100 position-relative">
+                        <!-- Wishlist Toggle -->
+                        <button class="btn btn-link wishlist-toggle" 
+                                data-product-id="{{ item.product.id }}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" 
+                                 class="card-img-top" 
+                                 alt="{{ item.product.name }}">
+                        {% else %}
+                            <div class="bg-light p-4 text-center">
+                                <i class="fas fa-image fa-4x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">
+                                {{ item.product.description|truncatewords:10 }}
+                            </p>
+                            <p class="card-text fw-bold">
+                                {{ item.product.price|currency }}
+                            </p>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'store:product_detail' item.product.slug %}" 
+                                   class="btn btn-outline-primary">
+                                    View Details
+                                </a>
+                                <form method="post" 
+                                      action="{% url 'store:move_to_cart' item.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart me-2"></i>Move to Cart
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-heart-broken fa-4x mb-3"></i>
+            <h4>Your wishlist is empty</h4>
+            <p>Explore our products and add items to your wishlist!</p>
+            <a href="{% url 'store:product_list' %}" class="btn btn-primary">
+                Start Shopping
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Wishlist Toggle Functionality
+    document.querySelectorAll('.wishlist-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            const wishlistItem = this.closest('.wishlist-item');
+            
+            // Send AJAX request to toggle wishlist
+            fetch(`/wishlist/toggle/${productId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the item from the DOM
+                    wishlistItem.remove();
+                    
+                    // Update wishlist count
+                    if (typeof updateWishlistCount === 'function') {
+                        updateWishlistCount();
+                    }
+                    
+                    // Show toast notification
+                    if (typeof showToast === 'function') {
+                        showToast('Item removed from wishlist', 'info');
+                    }
+                    
+                    // Reload page if no items left
+                    if (document.querySelectorAll('.wishlist-item').length === 0) {
+                        location.reload();
+                    }
+                } else {
+                    // Show error toast
+                    if (typeof showToast === 'function') {
+                        showToast('Failed to remove item from wishlist', 'danger');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Wishlist Toggle Error:', error);
+                if (typeof showToast === 'function') {
+                    showToast('An error occurred', 'danger');
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

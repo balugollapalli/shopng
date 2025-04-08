@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block title %}{{ category.name }} - Category{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'store:category_list' %}">Categories</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h1>{{ category.name }}</h1>
+            {% if category.description %}
+                <p class="text-muted">{{ category.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3>Associated Brands</h3>
+            <div class="d-flex flex-wrap gap-3">
+                {% if brands %}
+                    {% for brand in brands %}
+                        <div class="brand-box text-center border rounded p-3 bg-light" style="width: 140px;">
+                            <a href="{{ brand.get_absolute_url }}" class="text-decoration-none">
+                                {% if brand.logo %}
+                                    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="img-fluid rounded mb-2" style="max-height: 60px;">
+                                {% else %}
+                                    <div class="bg-secondary text-white p-2 rounded mb-2">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                {% endif %}
+                                <span class="badge bg-primary">{{ brand.name }}</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <span class="text-muted">No brands associated with this category.</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <h2>Products in {{ category.name }}</h2>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="bg-light p-4 text-center">
+                            <i class="fas fa-image fa-4x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
+                        <p class="card-text fw-bold">{{ product.price|currency }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-outline-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">No products available in this category.</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

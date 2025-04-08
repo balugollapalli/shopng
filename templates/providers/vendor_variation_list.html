@@ -1,0 +1,63 @@
+{% extends 'providers/dashboard.html' %}
+{% block content2 %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Variations for <span class="text-primary">{{ product.name }}</span></h2>
+        <a href="{% url 'providers:vendor_variation_create' product.pk %}" class="btn btn-success">
+          <i class="bi bi-plus-circle me-1"></i> Add Variation
+        </a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for variation in variations %}
+            <tr>
+              <td>{{ variation.name }}</td>
+              <td>{{ variation.value }}</td>
+              <td>₹{{ variation.price }}</td>
+              <td>
+                {% if variation.stock > 0 %}
+                  <span class="badge bg-success">{{ variation.stock }}</span>
+                {% else %}
+                  <span class="badge bg-danger">Out of Stock</span>
+                {% endif %}
+              </td>
+              <td>
+                <div class="btn-group" role="group">
+                  <a href="{% url 'providers:vendor_variation_update' product.pk variation.pk %}" class="btn btn-sm btn-outline-primary" title="Edit">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+                  <a href="{% url 'providers:vendor_variation_delete' product.pk variation.pk %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-center text-muted">No variations available.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <a href="{% url 'providers:vendor_product_list' %}" class="btn btn-secondary mt-3">
+        <i class="bi bi-arrow-left"></i> Back to Products
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

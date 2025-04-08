@@ -1,0 +1,127 @@
+<!-- store/templates/store/order_confirmation.html -->
+{% extends "base.html" %}
+{% load store_tags %}
+
+{% block title %}Order Confirmation - Shopng{% endblock %}
+{% block extra_css%}
+<style>
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'store:home' %}">
+                <i class="fas fa-home me-1"></i> Home
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'store:cart' %}">
+                <i class="fas fa-shopping-cart me-1"></i> Cart
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'store:checkout' %}">
+                <i class="fas fa-credit-card me-1"></i> Checkout
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <i class="fas fa-check-circle me-1"></i> Order Confirmation
+        </li>
+    </ol>
+</nav>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body text-center p-5">
+                <div class="mb-4">
+                    <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                </div>
+                <h2 class="mb-4">Thank You for Your Order!</h2>
+                <p class="lead mb-4">Your order has been placed successfully and is being processed.</p>
+                <div class="alert alert-info mb-4">
+                    <p class="mb-0">Order Number: <strong>#{{ order.id }}</strong></p>
+                </div>
+                <p>We've sent a confirmation email to <strong>{{ order.email }}</strong> with your order details.</p>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4 class="mb-0">Order Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>Shipping Information</h5>
+                        <p>
+                            {{ order.first_name }} {{ order.last_name }}<br>
+                            {{ order.address }}<br>
+                            {{ order.city }}, {{ order.state }} {{ order.postal_code }}<br>
+                            {{ order.country }}<br>
+                            {{ order.phone }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Order Summary</h5>
+                        <p>
+                            Order Date: {{ order.created|date:"F j, Y" }}<br>
+                            Order Status: <span class="badge bg-info">{{ order.get_status_display }}</span><br>
+                            Payment Status: {% if order.paid %}<span class="badge bg-success">Paid</span>{% else %}<span class="badge bg-warning">Pending</span>{% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                <h5>Ordered Items</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.price|currency }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.get_cost|currency }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Total:</td>
+                                <td class="fw-bold">{{ order.get_total_cost|currency }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'store:home' %}" class="btn btn-primary">
+                <i class="fas fa-home me-2"></i>Return to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

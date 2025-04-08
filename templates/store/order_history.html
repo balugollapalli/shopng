@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load store_tags%}
+{% block extra_css%}
+<style>
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">My Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order History</li>
+        </ol>
+    </nav>
+    <h2>My Orders</h2>
+    
+    {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.created|date:"F d, Y" }}</td>
+                            <td>{{ order.get_total_cost|currency }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if order.status == 'delivered' %}bg-success
+                                    {% elif order.status == 'processing' %}bg-warning
+                                    {% elif order.status == 'shipped' %}bg-info
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'store:order_detail' order.id %}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You haven't placed any orders yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

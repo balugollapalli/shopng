@@ -1,0 +1,333 @@
+<!-- store/templates/store/home.html -->
+{% extends "base.html" %}
+{% load store_tags %}
+{% load static %}
+{% block title %}Shopng - Your Online Shopping Destination{% endblock %}
+{% block extra_css%}
+<style>
+    /* Breadcrumb Styling */
+    .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #007bff;
+    }
+    
+    .breadcrumb-item.active {
+        color: #343a40;
+    }
+
+    /* Feature Links */
+    .features {
+        text-decoration: none;
+        color: rgb(54 62 75);
+        transition: color 0.3s ease;
+    }
+
+    .features:hover {
+        color: #007bff;
+    }
+
+    /* Image Styling */
+    .card-img, 
+    .card-img-bottom, 
+    .card-img-top {
+        width: 100%;
+        height: 250px;
+        object-fit: contain;
+        background-color: rgba(223, 223, 223, 0.468);
+        object-position: center;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1040px) {
+        /* Hero Section */
+        .bg-light {
+            padding: 2rem !important;
+        }
+
+        .display-5 {
+            font-size: 2rem;
+        }
+
+        .fs-4 {
+            font-size: 1rem !important;
+        }
+
+        /* Card Adjustments */
+        .card {
+            margin-bottom: 1rem;
+        }
+
+        .card-img, 
+        .card-img-bottom, 
+        .card-img-top {
+            height: 200px;
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .card-text {
+            font-size: 0.875rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        /* Brand and Category Cards */
+        .brand-card,
+        .category-card {
+            margin-bottom: 1rem;
+        }
+    }
+
+    /* Small Screen Adjustments */
+    @media (max-width: 576px) {
+        /* Hero Section */
+        .bg-light {
+            padding: 1rem !important;
+        }
+
+        .display-5 {
+            font-size: 1.5rem;
+        }
+
+        .fs-4 {
+            font-size: 0.9rem !important;
+        }
+
+        /* Card Adjustments */
+        .card-img, 
+        .card-img-bottom, 
+        .card-img-top {
+            height: 150px;
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 1.25rem;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+        }
+
+        .card-text {
+            font-size: 0.8rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        /* Column Layout */
+        .row-cols-md-3 > * {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .row-cols-md-4 > * {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    /* Desktop Enhancements */
+    @media (min-width: 1041px) {
+        /* Card Hover Effects */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Button Hover */
+        .btn-outline-primary:hover {
+            background-color: rgb(54 62 75);
+            color: white;
+        }
+    }
+
+    /* Brand Logo Styling */
+    .brand-logo {
+        max-height: 150px;
+        object-fit: contain;
+        padding: 1rem;
+    }
+
+    /* Accessibility and Interaction */
+    @media (hover: hover) {
+        .card-footer .btn:hover {
+            background-color: rgb(54 62 75);
+            color: white;
+        }
+    }
+
+    /* Responsive Typography */
+    body {
+        font-size: 1rem;
+    }
+
+    /* Section Spacing */
+    .container {
+        max-width: 1200px;
+    }
+
+    /* Scrollbar Styling */
+    @media (min-width: 1041px) {
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgb(54 62 75);
+            border-radius: 4px;
+        }
+    }
+</style>
+{%endblock%}
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active fas fa-home me-2" aria-current="page" >Home</li>
+    </ol>
+</nav>
+<!-- Hero Section -->
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="bg-light p-5 rounded-3 h-100">
+            <div class="container-fluid py-4">
+                <h1 class="display-5 fw-bold">Welcome to Shopng</h1>
+                <p class="fs-4">Your one-stop destination for all your shopping needs. Browse our extensive collection of products at competitive prices.</p>
+                <a href="{% url 'store:product_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        {% include "includes/advertisement_card.html" %}
+    </div>
+</div>
+
+
+<!-- Add this section after the categories section -->
+{% if featured_brands %}
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>
+                    <a href="{% url 'store:brand_list' %}" class="features">Featured Brands</a>
+                </h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            {% for brand in featured_brands %}
+                <div class="col-md-2 col-sm-4 col-6 mb-4">
+                    <div class="card brand-card h-100 text-center">
+                        {% if brand.logo %}
+                            <img src="{{ brand.logo.url }}" 
+                                 class="card-img-top brand-logo" 
+                                 alt="{{ brand.name }} Logo"
+                                 style="max-height: 150px; object-fit: contain;">
+                        {% else %}
+                            <div class="bg-light p-4 d-flex align-items-center justify-content-center">
+                                <h5 class="mb-0">{{ brand.name }}</h5>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h6 class="card-title">{{ brand.name }}</h6>
+                            <p class="card-text text-muted">
+                                {{ brand.products.count }} Products
+                            </p>
+                            <a href="{% url 'store:brand_detail' brand.slug %}" class="btn btn-outline-primary btn-sm">
+                                View Brand
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<!-- Categories Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>
+            <a href="{% url 'store:category_list'  %}" class="features">Shop by Category</a>
+        </h2>
+        <hr>
+    </div>
+</div>
+<div class="row mb-5">
+    {% for category in categories %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description|truncatewords:15 }}</p>
+                    <a href="{% url 'store:product_list_by_category' category.slug %}" class="btn btn-outline-primary">View Products</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Featured Products Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h2>
+            <a href="{% url 'store:product_list' %}" class="features">Featured Products</a>
+        </h2>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                    <div class="bg-light p-4 text-center">
+                        <i class="fas fa-image fa-4x text-muted"></i>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
+                    <p class="card-text fw-bold">{{ product.price|currency }}</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <div class="d-grid">
+                        <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

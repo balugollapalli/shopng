@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}OTP Verification - Shopng{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center" id="otpVerificationForm">
+    <div class="col-lg-5 col-md-7">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Verify Your Identity</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-center mb-4">An OTP has been sent to your email <strong>{{ email }}</strong></p>
+                <form method="post" action="{% url 'accounts:verify_otp' %}" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        {{ form.otp|as_crispy_field }}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Verify OTP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show OTP modal by default
+        const otpModal = new bootstrap.Modal(document.getElementById('otpModal'));
+        otpModal.show();
+    });
+</script>
+{% endblock %}

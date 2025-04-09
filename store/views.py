@@ -170,7 +170,14 @@ def product_detail(request, slug):
         2: {'count': 0, 'percentage': 0},
         1: {'count': 0, 'percentage': 0}
     }
-    context = {'product': product,'reviews': reviews,'average_rating': average_rating,'total_reviews': reviews.count(),'rating_distribution': rating_distribution}
+    cart = request.session.get('cart', {})
+    in_cart = False
+    for key in cart.keys():
+        if str(product.id) == key.split('-')[0]:
+            in_cart = True
+            break
+    context = {'product': product,'reviews': reviews,'average_rating': average_rating,'total_reviews': reviews.count(),
+               'rating_distribution': rating_distribution,'in_cart': in_cart }
     return render(request, 'store/product_detail.html', context)
 
 def toggle_wishlist(request, product_id):

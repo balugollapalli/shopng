@@ -398,35 +398,46 @@
                 </div>
 
                 <!-- Add to Cart Section -->
+                <!-- Add to Cart Section -->
                 {% if product.stock > 0 %}
-                <div class="add-to-cart-container">
-                    <div class="row g-3 align-items-center mb-4">
-                        <div class="col-auto">
-                            <label for="quantity" class="col-form-label">Quantity</label>
+                <div class="add-to-cart-container mb-4">
+                    {% if in_cart %}
+                        <div class="row">
+                            <div class="col">
+                                <a href="{% url 'store:cart' %}" class="btn btn-success btn-lg w-100">
+                                    <i class="fas fa-shopping-cart me-2"></i>View Cart
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-auto">
-                            <div class="input-group quantity-control" style="max-width: 150px;">
-                                <button class="btn btn-outline-secondary decrease-quantity" type="button">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="text" 
-                                    id="quantity" 
-                                    class="form-control text-center quantity-input" 
-                                    value="1" 
-                                    readonly 
-                                    data-max="{{ product.stock }}"
-                                    data-min="1">
-                                <button class="btn btn-outline-secondary increase-quantity" type="button">
-                                    <i class="fas fa-plus"></i>
+                    {% else %}
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="quantity" class="col-form-label">Quantity</label>
+                            </div>
+                            <div class="col-auto">
+                                <div class="input-group quantity-control" style="max-width: 150px;">
+                                    <button class="btn btn-outline-secondary decrease-quantity" type="button">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" 
+                                        id="quantity" 
+                                        class="form-control text-center quantity-input" 
+                                        value="1" 
+                                        readonly 
+                                        data-max="{{ product.stock }}"
+                                        data-min="1">
+                                    <button class="btn btn-outline-secondary increase-quantity" type="button">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-auto flex-grow-1">
+                                <button type="button" class="btn btn-primary btn-lg w-100 add-to-cart-btn">
+                                    <i class="fas fa-cart-plus me-2"></i>Add to Cart
                                 </button>
                             </div>
                         </div>
-                        <div class="col-auto flex-grow-1">
-                            <button type="button" class="btn btn-primary btn-lg w-100 add-to-cart-btn">
-                                <i class="fas fa-cart-plus me-2"></i>Add to Cart
-                            </button>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
                 {% endif %}
                 <div class="variation-scroll flex space-x-4 pb-2 mt-4">

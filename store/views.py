@@ -153,7 +153,10 @@ def product_list(request, category_slug=None):
     paginator = Paginator(products, 12)  
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'products': page_obj,'categories': categories,'brands': brands,'page_obj': page_obj,'is_paginated': page_obj.has_other_pages(),'current_sort': sort,'current_query': query,'current_category': category_filter,'current_min_price': min_price,'current_max_price': max_price,'current_brand': brand_filter,'breadcrumbs': breadcrumbs,}
+    cart = request.session.get('cart', {})
+    cart_product_ids = {int(key.split('-')[0]) for key in cart.keys()}
+    context = {'products': page_obj,'categories': categories,'brands': brands,'page_obj': page_obj,'is_paginated': page_obj.has_other_pages(),'current_sort': sort,'current_query': query,'current_category': category_filter,'current_min_price': min_price,'current_max_price': max_price,'current_brand': brand_filter,
+               'breadcrumbs': breadcrumbs,'cart_product_ids': cart_product_ids,}
     return render(request, 'store/product_list.html', context)
 
 def product_detail(request, slug):

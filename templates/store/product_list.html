@@ -512,7 +512,11 @@
                                         
                                         <!-- Cart Action Button -->
                                         <div class="cart-action-container" data-product-id="{{ product.id }}">
-                                            {% if product.stock > 0 %}
+                                            {% if product.id in cart_product_ids %}
+                                                <a href="{% url 'store:cart' %}" class="btn btn-success w-100">
+                                                    <i class="fas fa-shopping-cart me-2"></i>View Cart
+                                                </a>
+                                            {% elif product.stock > 0 %}
                                                 <button type="button" class="btn btn-primary w-100 add-to-cart-btn">
                                                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                                 </button>
@@ -522,6 +526,7 @@
                                                 </button>
                                             {% endif %}
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

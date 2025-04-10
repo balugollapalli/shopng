@@ -39,6 +39,7 @@ urlpatterns = [
     path('submit-review/', views.submit_review, name='submit_review'),
     path('orders/', views.order_history, name='order_history'),  # Order history
     path('orders/<int:order_id>/', views.order_detail, name='order_detail'),  # Order detail
+    path('orders/<int:order_id>/pay/', views.order_payment, name='order_payment'),
 
     # Address URLs
     path('addresses/', views.manage_addresses, name='manage_addresses'),

@@ -30,23 +30,18 @@ from .tokens import *
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
-# OTP handling (using cache)
-OTP_STORE = {}  # For local testing only. Remove in production.
-
 def generate_otp():
     return ''.join(random.choices(string.digits, k=6))
 
-def store_otp(email, otp):
-    cache.set(f'otp_{email}', otp, timeout=300)  # 5 minutes
-    OTP_STORE[email] = otp  # For local testing. Remove in production.
+def store_otp(email, otp, expiry_seconds=300):
+    cache.set(f'otp_{email}', otp, timeout=expiry_seconds)
 
 def get_stored_otp(email):
-    otp = cache.get(f'otp_{email}')
-    if not otp and settings.DEBUG:  # Only check OTP_STORE in DEBUG mode
-        otp = OTP_STORE.get(email)
-    return otp
+    return cache.get(f'otp_{email}')
 
-
+def delete_stored_otp(email):
+    cache.delete(f'otp_{email}')
+    
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -96,28 +91,16 @@ def login_view(request):
     if request.method == 'POST':
         username_or_email = request.POST.get('username')
         password = request.POST.get('password')
-        print(f"Attempting login with {username_or_email}")
         
-        # Check if the input is an email
         if '@' in username_or_email:
             try:
-                # Get the user object using the email
-                user_obj = User.objects.get(email=username_or_email)
-                print(f"Found user by email: {user_obj.username}")
-                
-                # Authenticate the user using the username and password
+                user_obj = User.objects.get(email=username_or_email)                
                 user = authenticate(request, username=user_obj.username, password=password)
-                print(f"Auth with username={user_obj.username}: {user}")
             except User.DoesNotExist:
                 user = None
         else:
-            # Authenticate the user using the username and password
-            user = authenticate(request, username=username_or_email, password=password)
-            print(f"Auth with username={username_or_email}: {user}")
-        
-        print(f"Final authentication result: {user}")
-        
-        if user is not None:
+            user = authenticate(request, username=username_or_email, password=password)        
+        if user:
             if not user.is_active:
                 messages.error(request, 'This account is not active. Please check your email for activation link.')
                 return redirect('accounts:login')
@@ -125,15 +108,11 @@ def login_view(request):
             if not user.is_email_verified:
                 messages.error(request, 'Please verify your email before login.')
                 return redirect('accounts:login')
-            
-            # Rest of your code for OTP generation and verification
-            # Continue with OTP generation and verification...
             otp = generate_otp()
             store_otp(user.email, otp)
             
-            # Send OTP to user's email
             subject = 'Your Login OTP'
-            message = f'Your OTP for login is: {otp}'
+            message = f'Your OTP for login is: {otp} and it will be expired in next 5 min'
             send_mail(
                 subject,
                 message,
@@ -141,7 +120,6 @@ def login_view(request):
                 [user.email],
             )
             
-            # Store user temporarily
             request.session['temp_user_email'] = user.email
             
             return render(request, 'registration/otp_verification.html', {
@@ -151,46 +129,68 @@ def login_view(request):
         else:
             messages.error(request, 'Invalid username or password.')
             
-    # If not POST or authentication failed, show the login form
     form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})
 
 def verify_otp(request):
+    email = request.session.get('temp_user_email')
+    if not email:
+        messages.error(request, 'Session expired. Please login again.')
+        return redirect('accounts:login')
+    
     if request.method == 'POST':
         form = OTPVerificationForm(request.POST)
         if form.is_valid():
-            otp = form.cleaned_data.get('otp')
-            email = request.session.get('temp_user_email')
-            
+            otp = form.cleaned_data.get('otp')            
             stored_otp = get_stored_otp(email)
             logger.info(f"Verifying OTP for {email}. Entered: {otp}, Stored: {stored_otp}")
             
-            if email and stored_otp and stored_otp == otp:
-                # OTP verified, log in user
-                logger.info(f"OTP verified for {email}")
-                user = User.objects.get(email=email)
-                print(user)
-                login(request, user, backend='accounts.backends.EmailOrUsernameModelBackend')
-                cache.delete(f'otp_{email}')  # Remove OTP after use
-                if email in OTP_STORE:
-                    del OTP_STORE[email]  # Also clean up the dictionary
-                del request.session['temp_user_email']
-                
-                # Check if first login
-                if user.first_login:
-                    return redirect('accounts:complete_profile')
-                return redirect('store:home')
+            if stored_otp == otp:
+                try:
+                    user = User.objects.get(email=email)
+                    login(request, user, backend='accounts.backends.EmailOrUsernameModelBackend')
+                    delete_stored_otp(email)
+                    request.session.pop('temp_user_email', None)
+
+                    if user.first_login:
+                        return redirect('accounts:complete_profile')
+                    return redirect('store:home')
+                except User.DoesNotExist:
+                    messages.error(request, 'User not found.')
             else:
                 logger.warning(f"Invalid OTP for {email}. Entered: {otp}, Stored: {stored_otp}")
                 messages.error(request, 'Invalid OTP. Please try again.')
         
-        return render(request, 'registration/otp_verification.html', {
-            'form': form,
-            'email': request.session.get('temp_user_email')
-        })
-    
-    return redirect('accounts:login')
+    else:
+        form = OTPVerificationForm()
+        
+    return render(request, 'registration/otp_verification.html', {
+        'form': form,
+        'email': request.session.get('temp_user_email')
+    })
 
+def resend_otp(request):
+    email = request.session.get('temp_user_email')
+    if not email:
+        messages.error(request, 'Session expired. Please login again.')
+        return redirect('accounts:login')
+
+    otp = get_stored_otp(email)
+    if not otp:
+        otp = generate_otp()
+        store_otp(email, otp)
+
+    send_mail(
+        'Your Resend OTP',
+        f'Your OTP is: {otp} and it will be expired soon',
+        settings.EMAIL_HOST_USER,
+        [email],
+    )
+
+    messages.success(request, 'OTP has been resent to your email.')
+    return redirect('accounts:verify_otp')
+
+  
 @login_required
 def complete_profile(request):
     try:

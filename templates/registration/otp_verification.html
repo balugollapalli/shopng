@@ -11,7 +11,10 @@
                 <h4 class="mb-0">Verify Your Identity</h4>
             </div>
             <div class="card-body">
-                <p class="text-center mb-4">An OTP has been sent to your email <strong>{{ email }}</strong></p>
+                <p class="text-center mb-4">
+                    An OTP has been sent to your email <strong>{{ email }}</strong>
+                </p>
+
                 <form method="post" action="{% url 'accounts:verify_otp' %}" novalidate>
                     {% csrf_token %}
                     
@@ -23,6 +26,16 @@
                         <button type="submit" class="btn btn-primary">Verify OTP</button>
                     </div>
                 </form>
+
+                <p class="text-muted text-center mt-4">Didn't receive the OTP?</p>
+                <form method="post" action="{% url 'accounts:resend_otp' %}" class="text-center">
+                    {% csrf_token %}
+                    <button class="btn btn-link btn-sm">Resend OTP</button>
+                </form>
+
+                <p class="text-muted text-center mt-3">
+                    OTP expires in <span id="otp-timer">05:00</span>.
+                </p>
             </div>
         </div>
     </div>
@@ -31,10 +44,17 @@
 
 {% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Show OTP modal by default
-        const otpModal = new bootstrap.Modal(document.getElementById('otpModal'));
-        otpModal.show();
+    document.addEventListener('DOMContentLoaded', function () {
+        // Timer countdown
+        let timeLeft = 300;
+        const timer = document.getElementById('otp-timer');
+        const interval = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timeLeft--;
+            if (timeLeft < 0) clearInterval(interval);
+        }, 1000);
     });
 </script>
 {% endblock %}

@@ -55,11 +55,18 @@
                                     {{ order.get_status_display }}
                                 </span>
                             </td>
-                            <td>
+                            <td class="d-flex gap-2">
                                 <a href="{% url 'store:order_detail' order.id %}" 
                                    class="btn btn-sm btn-outline-primary">
                                     View Details
                                 </a>
+                                
+                                {% if not order.paid %}
+                                    <a href="{% url 'store:order_payment' order.id %}" 
+                                       class="btn btn-sm btn-success">
+                                        Pay Now
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

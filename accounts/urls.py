@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('profile/complete/', views.complete_profile, name='complete_profile'),
+    path('resend-otp/', views.resend_otp, name='resend_otp'),
 
     # Password reset URLs (using Django's built-in views)
     path('password_reset/', auth_views.PasswordResetView.as_view(

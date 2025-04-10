@@ -15,8 +15,11 @@ from django.db.models.functions import Lower
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.conf import settings
+from django.utils.html import strip_tags
+from django.db import transaction
+from django.utils import timezone
 import logging
-
 logger = logging.getLogger(__name__)
 
 def home(request):
@@ -359,33 +362,51 @@ def checkout(request):
     if not cart:
         messages.warning(request, "Your cart is empty")
         return redirect('store:cart')
+
     cart_items = []
-    total = Decimal('0.00')
+    subtotal = Decimal('0.00')
+
     for cart_item_key, item_data in cart.items():
         try:
             if '-' in cart_item_key:
                 product_id, variation_id = cart_item_key.split('-')
             else:
                 product_id, variation_id = cart_item_key, None
+
             product = Product.objects.get(id=product_id)
             quantity = int(item_data['quantity'])
             price = Decimal(str(item_data['price']))
-            subtotal = quantity * price
-            total += subtotal
-            cart_item = {'product': product,'quantity': quantity,'price': price,'subtotal': subtotal,'cart_item_key': cart_item_key}
+            item_total = quantity * price
+            subtotal += item_total
+
+            cart_item = {
+                'product': product,
+                'quantity': quantity,
+                'price': price,
+                'subtotal': item_total,
+                'cart_item_key': cart_item_key
+            }
+
             if variation_id:
                 try:
                     variation = ProductVariation.objects.get(id=variation_id, product=product)
                     cart_item['variation'] = variation
                 except ProductVariation.DoesNotExist:
                     pass
+
             cart_items.append(cart_item)
         except Product.DoesNotExist:
             del cart[cart_item_key]
+
     request.session['cart'] = cart
     request.session.modified = True
+
+    tax = subtotal * Decimal('0.10')
+    total_with_tax = subtotal + tax
+
     addresses = UserAddress.objects.filter(user=request.user)
     address_form = UserAddressForm()
+
     if request.method == 'POST':
         if 'name' in request.POST:
             address_form = UserAddressForm(request.POST)
@@ -396,32 +417,35 @@ def checkout(request):
                         street_address=address_form.cleaned_data['street_address'],
                         city=address_form.cleaned_data['city'],
                         state=address_form.cleaned_data['state'],
-                        postal_code=address_form.cleaned_data['postal_code']).first()
-                    if existing_address:
-                        shipping_address = existing_address
-                    else:
-                        shipping_address = address_form.save(commit=False)
-                        shipping_address.user = request.user
-                        shipping_address.save()
+                        postal_code=address_form.cleaned_data['postal_code']
+                    ).first()
+
+                    shipping_address = existing_address or address_form.save(commit=False)
+                    shipping_address.user = request.user
+                    shipping_address.save()
+
                     messages.success(request, 'Address added successfully')
                     return redirect('store:checkout')
+
                 except Exception as e:
                     messages.error(request, f"Error adding address: {str(e)}")
                     return redirect('store:checkout')
             else:
                 messages.error(request, "Invalid address details")
                 return redirect('store:checkout')
+
         address_id = request.POST.get('selected_address')
         if address_id:
             try:
-                shipping_address = UserAddress.objects.get(
-                    id=address_id, 
-                    user=request.user
-                )
+                shipping_address = UserAddress.objects.get(id=address_id, user=request.user)
+                name_parts = shipping_address.name.split()
+                first_name = name_parts[0]
+                last_name = ' '.join(name_parts[1:]) if len(name_parts) > 1 else ''
+
                 order = Order.objects.create(
                     user=request.user,
-                    first_name=shipping_address.name.split()[0],
-                    last_name=' '.join(shipping_address.name.split()[1:]) if len(shipping_address.name.split()) > 1 else '',
+                    first_name=first_name,
+                    last_name=last_name,
                     email=request.user.email,
                     address=shipping_address.street_address,
                     city=shipping_address.city,
@@ -429,47 +453,70 @@ def checkout(request):
                     postal_code=shipping_address.postal_code,
                     country=shipping_address.country,
                     phone=shipping_address.phone_number or '',
-                    total=total * Decimal('1.1'),
-                    status='pending')
+                    total=total_with_tax,
+                    status='pending'
+                )
+
                 for cart_item in cart_items:
                     order_item = OrderItem.objects.create(
                         order=order,
                         product=cart_item['product'],
                         price=cart_item['price'],
-                        quantity=cart_item['quantity'])
+                        quantity=cart_item['quantity']
+                    )
                     if 'variation' in cart_item:
                         order_item.variation = cart_item['variation']
                         order_item.variation_name = cart_item['variation'].name
                         order_item.variation_value = cart_item['variation'].value
                         order_item.save()
+
                 try:
                     user_email = order.user.email if order.user else order.email
                     context = {
                         'order': order,
                         'order_items': order.items.all(),
-                        'shipping_address': order.shipping_address,
-                        'payment_method': order.payment_method,
-                        'payment_url': request.build_absolute_uri(f'/orders/{order.id}/pay/?from_email=true')
+                        'shipping_address': shipping_address,
+                        'payment_url': request.build_absolute_uri(f'/orders/{order.id}/pay/?from_email=true'),
+                        'subtotal': subtotal,
+                        'tax': tax,
+                        'grand_total': total_with_tax
                     }
+
+                    html_message = render_to_string('store/order_invoice.html', context)
+                    plain_message = strip_tags(html_message)
+
                     send_mail(
-                        subject=f'Order Confirmation #{order.id}',
-                        message='Your order has been placed successfully.',
-                        from_email='your-store@example.com',
+                        subject=f'Order Confirmation - Invoice #{order.id}',
+                        message=plain_message,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
                         recipient_list=[user_email],
-                        html_message=render_to_string('order_confirmation_email.html', context),
+                        html_message=html_message,
                         fail_silently=False,
                     )
+
                 except Exception as e:
                     print("Email send error:", str(e))
+
                 request.session['cart'] = {}
                 request.session.modified = True
                 messages.success(request, 'Order placed successfully!')
                 return redirect('store:order_confirmation', order_id=order.id)
+
             except UserAddress.DoesNotExist:
                 messages.error(request, 'Invalid address selected')
         else:
             messages.error(request, 'Please select a shipping address')
-    return render(request, 'store/checkout.html', {'cart_items': cart_items,'total': total,'addresses': addresses,'address_form': address_form})
+
+    return render(request, 'store/checkout.html', {
+        'cart_items': cart_items,
+        'subtotal': subtotal,
+        'tax': tax,
+        'total_with_tax': total_with_tax,
+        'addresses': addresses,
+        'address_form': address_form
+    })
+
+
 
 @login_required
 def order_confirmation(request, order_id):
@@ -541,8 +588,52 @@ def order_history(request):
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     order_items = order.items.all()
-    return render(request, 'store/order_detail.html', {'order': order,'order_items': order_items})
-    
+    tracking_steps = ["Order Placed", "Payment Done", "Processing", "Shipped", "Delivered"]
+
+    return render(request, 'store/order_detail.html', {'order': order,'order_items': order_items,'tracking_steps': tracking_steps})
+
+@login_required
+def order_payment(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if order.paid:
+        messages.info(request, 'This order is already paid.')
+        return redirect('store:order_detail', order_id=order.id)
+
+    if request.method == 'POST':
+        # simulate payment success here
+        try:
+            with transaction.atomic():
+                order.paid = True
+                order.status = 'processing'
+                order.transaction_id = f"TXN-{order.id}-{timezone.now().timestamp()}"
+                order.save()
+
+                # Reduce stock
+                for item in order.items.all():
+                    product = item.product
+                    if item.variation:
+                        variation = item.variation
+                        if variation.stock >= item.quantity:
+                            variation.stock -= item.quantity
+                            variation.save()
+                        else:
+                            raise Exception(f"Not enough stock for {variation.name} ({variation.value})")
+                    else:
+                        if product.stock >= item.quantity:
+                            product.stock -= item.quantity
+                            product.save()
+                        else:
+                            raise Exception(f"Not enough stock for {product.name}")
+
+                messages.success(request, "Payment successful! Order is now processing.")
+                return redirect('store:order_detail', order_id=order.id)
+
+        except Exception as e:
+            messages.error(request, f"Payment failed: {str(e)}")
+            return redirect('store:order_payment', order_id=order.id)
+
+    return render(request, 'store/order_payment.html', {'order': order})
 
 @login_required
 def submit_review(request):

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Payment for Order #{{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Pay for Order #{{ order.id }}</h3>
+    <p><strong>Total Amount:</strong> ₹{{ order.total }}</p>
+    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-success">Pay Now</button>
+    </form>
+</div>
+{% endblock %}

@@ -151,15 +151,15 @@
                             {% endfor %}
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Subtotal</span>
-                                <span>{{ total|currency }}</span>
+                                <span>{{ subtotal|currency }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Tax (10%)</span>
-                                <span>{{ total|mul:0.1|currency }}</span>
+                                <span>{{ tax }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between fw-bold">
                                 <span>Total</span>
-                                <span>{{ total|mul:1.1|currency }}</span>
+                                <span>{{ total_with_tax }}</span>
                             </li>
                         </ul>
                         <div class="d-grid gap-2 mt-3">

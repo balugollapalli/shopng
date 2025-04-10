@@ -337,10 +337,18 @@
                         </a>
                     </div>
                     <div class="rating">
-                        {% for i in "12345" %}
-                            <i class="fas fa-star {% if forloop.counter <= 4 %}text-warning{% else %}text-muted{% endif %}"></i>
-                        {% endfor %}
-                        <span class="ms-2 text-muted">(4.5)</span>
+                        <span class="text-warning">
+                            {% for i in "12345" %}
+                                {% if average_rating >= forloop.counter %}
+                                    <i class="fas fa-star"></i>
+                                {% elif average_rating > forloop.counter|add:"-1" and average_rating < forloop.counter %}
+                                    <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                        <span class="ms-2 text-muted">({{ average_rating|floatformat:1 }})</span>
                     </div>
                 </div>
 
@@ -397,7 +405,6 @@
                     </ul>
                 </div>
 
-                <!-- Add to Cart Section -->
                 <!-- Add to Cart Section -->
                 {% if product.stock > 0 %}
                 <div class="add-to-cart-container mb-4">

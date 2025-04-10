@@ -17,6 +17,33 @@
     color: #343a40;
 }
 
+/* Star Rating */
+.star-rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: left;
+}
+.star-rating input {
+    display: none;
+}
+.star-rating label {
+    display: inline-block;
+    padding: 3px;
+    vertical-align: middle;
+    color: #ccc;
+    transition: color 0.2s ease;
+    font-size: 30px;
+    cursor: pointer;
+}
+.star-rating input:checked ~ label,
+.star-rating input:checked ~ label ~ label {
+    color: #ffc107;
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffc107;
+}
+
 /* Order Tracking UI */
 .tracking-steps {
     position: relative;
@@ -81,6 +108,7 @@
     from { transform: scale(0.5); opacity: 0.3; }
     to { transform: scale(1); opacity: 1; }
 }
+
 .product-image-small {
     max-width: 50px;
     max-height: 50px;
@@ -112,18 +140,12 @@
                 {% for step in tracking_steps %}
                     <div class="tracking-step">
                         <div class="step-icon 
-                            {% if forloop.counter == 1 %}
-                                completed
-                            {% elif forloop.counter == 2 and order.paid %}
-                                completed
-                            {% elif forloop.counter == 3 and order.status in "processing shipped delivered" %}
-                                completed
-                            {% elif forloop.counter == 4 and order.status in "shipped delivered" %}
-                                completed
-                            {% elif forloop.counter == 5 and order.status == "delivered" %}
-                                completed
-                            {% endif %}
-                        ">
+                            {% if forloop.counter == 1 %} completed
+                            {% elif forloop.counter == 2 and order.paid %} completed
+                            {% elif forloop.counter == 3 and order.status in "processing shipped delivered" %} completed
+                            {% elif forloop.counter == 4 and order.status in "shipped delivered" %} completed
+                            {% elif forloop.counter == 5 and order.status == "delivered" %} completed
+                            {% endif %}">
                             <i class="fas fa-check"></i>
                         </div>
                         <small class="d-block mt-1">{{ step }}</small>
@@ -138,32 +160,75 @@
         <!-- Items -->
         <div class="col-md-8">
             <div class="card mb-4">
-                <div class="card-header">Order Items</div>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Order Items</h5>
+                    <span class="badge bg-primary">{{ order_items.count }} Items</span>
+                </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Qty</th>
+                                <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Subtotal</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for item in order_items %}
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        {% if item.product.image %}
-                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image-small rounded">
-                                        {% endif %}
-                                        <a href="{% url 'store:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if item.product.image %}
+                                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image-small rounded">
+                                            {% endif %}
+                                            <a href="{% url 'store:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                        </div>
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.price|currency }}</td>
+                                    <td>{{ item.get_cost|currency }}</td>
+                                    <td>
+                                        <!-- Review Button -->
+                                        <button class="btn btn-sm btn-outline-primary review-btn" data-bs-toggle="modal" data-bs-target="#reviewModal{{ item.product.id }}">
+                                            <i class="fas fa-star me-2"></i>Review
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Review Modal -->
+                                <div class="modal fade" id="reviewModal{{ item.product.id }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Review {{ item.product.name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="reviewForm{{ item.product.id }}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Rating</label>
+                                                        <div class="star-rating">
+                                                            {% for i in "12345" %}
+                                                                <input type="radio" name="rating" value="{{ 6|subtract:i }}" id="rating{{ i }}{{ item.product.id }}">
+                                                                <label for="rating{{ i }}{{ item.product.id }}" class="star">★</label>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Review</label>
+                                                        <textarea name="review" class="form-control" rows="4" placeholder="Write your review here..."></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.price|currency }}</td>
-                                <td>{{ item.get_cost|currency }}</td>
-                            </tr>
+                                </div>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -176,11 +241,27 @@
             <div class="card">
                 <div class="card-header">Order Summary</div>
                 <div class="card-body">
-                    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
-                    <p><strong>Paid:</strong> {{ order.paid|yesno:"Yes,No" }}</p>
+                    <p><strong>Order Date:</strong> {{ order.created|date:"F d, Y" }}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="badge 
+                            {% if order.status == 'delivered' %}bg-success
+                            {% elif order.status == 'cancelled' %}bg-danger
+                            {% elif order.status == 'processing' %}bg-warning
+                            {% else %}bg-info{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </p>
+                    <p><strong>Shipping Address:</strong><br>
+                        {{ order.first_name }} {{ order.last_name }}<br>
+                        {{ order.address }}<br>
+                        {{ order.city }}, {{ order.state }} {{ order.postal_code }}<br>
+                        {{ order.country }}
+                    </p>
+
+                    <hr>
+
                     <p><strong>Subtotal:</strong> {{ order.get_total_cost|currency }}</p>
                     <p><strong>Tax (10%):</strong> {{ order.get_total_cost|multiply:0.1|currency }}</p>
-                    <hr>
                     <p><strong>Total:</strong> {{ order.get_total_cost|multiply:1.1|currency }}</p>
 
                     {% if not order.paid %}
@@ -213,6 +294,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Animate green line width
     const percentage = ((steps.length - 1) / (totalSteps - 1)) * 100;
     progressLine.style.width = percentage + '%';
+
+    // Review AJAX submit
+    document.querySelectorAll('form[id^="reviewForm"]').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('{% url "store:submit_review" %}', {
+                method: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const modalId = this.closest('.modal').id;
+                    const modalInstance = bootstrap.Modal.getInstance(document.getElementById(modalId));
+                    modalInstance.hide();
+                    if (typeof showToast === 'function') showToast('Review submitted successfully!', 'success');
+                } else {
+                    if (typeof showToast === 'function') showToast(data.message || 'Failed to submit review', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Review Submission Error:', error);
+                if (typeof showToast === 'function') showToast('An error occurred', 'danger');
+            });
+        });
+    });
 });
 </script>
 {% endblock %}

@@ -183,7 +183,7 @@
                                             {% if item.product.image %}
                                                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image-small rounded">
                                             {% endif %}
-                                            <a href="{% url 'store:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                            <a href="{% url 'store:product_detail' item.product.slug %}" class="product-link">{{ item.product.name }}</a>
                                         </div>
                                     </td>
                                     <td>{{ item.quantity }}</td>

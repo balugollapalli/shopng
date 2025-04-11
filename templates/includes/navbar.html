@@ -504,6 +504,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // === Close All Menus When Clicking Outside ===
+    document.addEventListener('click', function (e) {
+        if (!navbarCollapse.contains(e.target) && !navbarToggler.contains(e.target)) {
+            navbarCollapse.classList.remove('show');
+        }
+        if (!mobileCategoriesToggle.contains(e.target) && !mobileCategoriesContent.contains(e.target)) {
+            mobileCategoriesContent.classList.remove('show');
+            categoriesToggleIcon.classList.remove('active');
+        }
+        if (!mobileSearchToggle.contains(e.target) && !centeredSearchContainer.contains(e.target)) {
+            centeredSearchContainer.classList.remove('show');
+        }
+        if (!userDropdownBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+            userDropdownMenu?.classList.remove('show');
+            userDropdownBtn?.setAttribute('aria-expanded', 'false');
+        }
+    });
+    
     // Desktop Category Dropdown Logic
     if (categoryDropdown && categoryDropdownMenu) {
         categoryDropdown.addEventListener('click', (e) => {

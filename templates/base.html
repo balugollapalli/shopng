@@ -12,7 +12,19 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-
+    <style>
+        .breadcrumb-item a {
+            color: #6c757d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .breadcrumb-item a:hover {
+            color: #007bff;
+        }
+        .breadcrumb-item.active {
+            color: #343a40;
+        }
+    </style>
     <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3"></div>
 
     <header class="sticky-top"> 

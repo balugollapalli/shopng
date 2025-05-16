@@ -1,0 +1,77 @@
+[
+{
+  "model": "providers.vendoruser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$lGjP3F2JQwOidlOUtHc5VJ$aLp1QI6jaFHlEQvNGx+It5LKp7sVr5UHCoEqAPkKEWk=",
+    "last_login": "2025-04-07T04:45:22.210Z",
+    "is_superuser": false,
+    "email": "shop1@gmail.com",
+    "full_name": "shop1",
+    "is_active": true,
+    "is_staff": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "providers.vendoruser",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$206a1wCs5RF3iAnQ9mBo9n$VUOWQLdsA+x8ydVyuq4BJDTHwS5/xnCjhADFiBP22a4=",
+    "last_login": "2025-04-07T04:47:25.462Z",
+    "is_superuser": false,
+    "email": "shop2@gmail.com",
+    "full_name": "shop2",
+    "is_active": true,
+    "is_staff": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "providers.vendoruser",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$lqqcxrPRG6YsamoCYTvznt$Fqw8G4qFNhjTi3Q5PY0jcHYcP6FYfkTZZy8/5PWRgT0=",
+    "last_login": "2025-04-07T04:53:01.803Z",
+    "is_superuser": false,
+    "email": "shop3@gmail.com",
+    "full_name": "shop3",
+    "is_active": true,
+    "is_staff": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "providers.vendoruser",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$NcoQWS7wkw1uCMwGjz0bXh$/mNNQRWFOvxVKodvU2z8o+PT6EsmeFRVcaInJ+zgi1M=",
+    "last_login": null,
+    "is_superuser": false,
+    "email": "shop4@gmail.com",
+    "full_name": "shop1",
+    "is_active": true,
+    "is_staff": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "providers.vendoruser",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$aYf6GJC6WVyJetIEXhSFAl$MMIWEvO448KZ0ObMQzacyNJ3pDPAAmE4jeUlr/0rJf0=",
+    "last_login": "2025-04-07T11:20:19.345Z",
+    "is_superuser": false,
+    "email": "shop5@gmail.com",
+    "full_name": "shop1",
+    "is_active": true,
+    "is_staff": false,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

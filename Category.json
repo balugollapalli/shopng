@@ -1,0 +1,153 @@
+[
+{
+  "model": "store.category",
+  "pk": 1,
+  "fields": {
+    "name": "Action Cameras",
+    "slug": "action-cameras",
+    "description": "Cameras designed for capturing action-packed moments.",
+    "brands": [
+      12
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 2,
+  "fields": {
+    "name": "Athletic Wear",
+    "slug": "athletic-wear",
+    "description": "Clothing designed for workouts and athletic activities.",
+    "brands": [
+      20,
+      22,
+      28
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 3,
+  "fields": {
+    "name": "Audio Equipment",
+    "slug": "audio-equipment",
+    "description": "Devices and systems used for audio playback or recording.",
+    "brands": [
+      6,
+      7,
+      16,
+      19,
+      26,
+      27
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 4,
+  "fields": {
+    "name": "Fitness Trackers",
+    "slug": "fitness-trackers",
+    "description": "Wearable devices for tracking physical activity and health.",
+    "brands": [
+      4,
+      10,
+      11
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 5,
+  "fields": {
+    "name": "Gaming Accessories",
+    "slug": "gaming-accessories",
+    "description": "Accessories designed to enhance the gaming experience.",
+    "brands": [
+      19,
+      25
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 6,
+  "fields": {
+    "name": "Laptops",
+    "slug": "laptops",
+    "description": "Portable personal computers for work, school, or entertainment.",
+    "brands": [
+      4,
+      5,
+      9,
+      14,
+      18
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 7,
+  "fields": {
+    "name": "Running Shoes",
+    "slug": "running-shoes",
+    "description": "Footwear optimized for running and athletic performance.",
+    "brands": [
+      2,
+      8,
+      15,
+      22
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 8,
+  "fields": {
+    "name": "Smart Home Devices",
+    "slug": "smart-home-devices",
+    "description": "Home automation products that connect to the internet.",
+    "brands": [
+      3,
+      13
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 9,
+  "fields": {
+    "name": "Smartphones",
+    "slug": "smartphones",
+    "description": "Mobile phones with advanced features and internet access.",
+    "brands": [
+      4,
+      13,
+      23,
+      26
+    ]
+  }
+},
+{
+  "model": "store.category",
+  "pk": 10,
+  "fields": {
+    "name": "Wireless Earbuds",
+    "slug": "wireless-earbuds",
+    "description": "Cordless earphones for wireless audio.",
+    "brands": []
+  }
+},
+{
+  "model": "store.category",
+  "pk": 11,
+  "fields": {
+    "name": "category1",
+    "slug": "category1",
+    "description": "this is custom category",
+    "brands": [
+      29
+    ]
+  }
+}
+]

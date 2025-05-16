@@ -1,0 +1,38 @@
+[
+{
+  "model": "store.productvariation",
+  "pk": 1,
+  "fields": {
+    "product": 55,
+    "name": "color",
+    "value": "red",
+    "price": "989.99",
+    "stock": 100,
+    "image": "variation_images/iPhone_13_Pro.jpeg"
+  }
+},
+{
+  "model": "store.productvariation",
+  "pk": 2,
+  "fields": {
+    "product": 55,
+    "name": "size",
+    "value": "large",
+    "price": "990.99",
+    "stock": 90,
+    "image": "variation_images/iPhone_13_Pro_yQ2Gw78.jpeg"
+  }
+},
+{
+  "model": "store.productvariation",
+  "pk": 4,
+  "fields": {
+    "product": 56,
+    "name": "color",
+    "value": "green",
+    "price": "20.00",
+    "stock": 10,
+    "image": ""
+  }
+}
+]

@@ -1,0 +1,134 @@
+[
+{
+  "model": "store.order",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "first_name": "deva",
+    "last_name": "",
+    "email": "imdeva.you@gmail.com",
+    "address": "ramalayam street",
+    "city": "chirala",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "phone": "8639127093",
+    "created": "2025-04-06T17:45:29.131Z",
+    "updated": "2025-04-06T17:45:29.132Z",
+    "status": "pending",
+    "paid": false,
+    "transaction_id": "",
+    "total": "1088.99"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "first_name": "deva",
+    "last_name": "",
+    "email": "imdeva.you@gmail.com",
+    "address": "ramalayam street",
+    "city": "chirala",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "phone": "8639127093",
+    "created": "2025-04-06T17:51:17.877Z",
+    "updated": "2025-04-06T17:51:17.877Z",
+    "status": "pending",
+    "paid": false,
+    "transaction_id": "",
+    "total": "1090.09"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "first_name": "deva",
+    "last_name": "",
+    "email": "imdeva.you@gmail.com",
+    "address": "ramalayam street",
+    "city": "chirala",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "phone": "8639127093",
+    "created": "2025-04-06T18:07:14.680Z",
+    "updated": "2025-04-06T18:07:14.680Z",
+    "status": "pending",
+    "paid": false,
+    "transaction_id": "",
+    "total": "1088.99"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "first_name": "deva",
+    "last_name": "",
+    "email": "imdeva.you@gmail.com",
+    "address": "ramalayam street",
+    "city": "chirala",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "phone": "8639127093",
+    "created": "2025-04-06T18:13:34.699Z",
+    "updated": "2025-04-06T18:13:34.699Z",
+    "status": "pending",
+    "paid": false,
+    "transaction_id": "",
+    "total": "329.99"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 5,
+  "fields": {
+    "user": 2,
+    "first_name": "deva",
+    "last_name": "",
+    "email": "imdeva.you@gmail.com",
+    "address": "ramalayam street",
+    "city": "chirala",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "phone": "8639127093",
+    "created": "2025-04-06T18:21:50.565Z",
+    "updated": "2025-04-06T18:21:50.565Z",
+    "status": "pending",
+    "paid": false,
+    "transaction_id": "",
+    "total": "1090.09"
+  }
+},
+{
+  "model": "store.order",
+  "pk": 6,
+  "fields": {
+    "user": 2,
+    "first_name": "Bose",
+    "last_name": "QuietComfort Earbuds",
+    "email": "imdeva.you@gmail.com",
+    "address": "ramalayam street",
+    "city": "cvgtf",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "phone": "8639127093",
+    "created": "2025-04-08T07:14:35.198Z",
+    "updated": "2025-04-08T07:14:35.198Z",
+    "status": "pending",
+    "paid": false,
+    "transaction_id": "",
+    "total": "1319.98"
+  }
+}
+]

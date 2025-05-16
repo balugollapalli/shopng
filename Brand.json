@@ -1,0 +1,362 @@
+[
+{
+  "model": "store.brand",
+  "pk": 1,
+  "fields": {
+    "name": "Acer",
+    "slug": "acer",
+    "description": "Multinational hardware and electronics corporation",
+    "logo": "brand_logos/acer_kDBs6os.jpg",
+    "founded_year": 1976,
+    "website": "https://www.acer.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 2,
+  "fields": {
+    "name": "Adidas",
+    "slug": "adidas",
+    "description": "Multinational corporation that designs and manufactures shoes, clothing, and accessories",
+    "logo": "brand_logos/adidas.jpeg",
+    "founded_year": 1949,
+    "website": "https://www.adidas.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 3,
+  "fields": {
+    "name": "Amazon",
+    "slug": "amazon",
+    "description": "Amazon - Technology and innovation brand",
+    "logo": "brand_logos/amazon.png",
+    "founded_year": 2008,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 4,
+  "fields": {
+    "name": "Apple",
+    "slug": "apple",
+    "description": "Innovative technology company",
+    "logo": "brand_logos/apple.png",
+    "founded_year": 1976,
+    "website": "https://www.apple.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 5,
+  "fields": {
+    "name": "Asus",
+    "slug": "asus",
+    "description": "Taiwanese multinational computer hardware company",
+    "logo": "brand_logos/asus.png",
+    "founded_year": 1989,
+    "website": "https://www.asus.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 6,
+  "fields": {
+    "name": "Beats",
+    "slug": "beats",
+    "description": "Subsidiary of Apple Inc. that produces audio products",
+    "logo": "brand_logos/beatsbydre.png",
+    "founded_year": 2006,
+    "website": "https://www.beatsbydre.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 7,
+  "fields": {
+    "name": "Bose",
+    "slug": "bose",
+    "description": "American corporation that specializes in audio equipment",
+    "logo": "brand_logos/bose.png",
+    "founded_year": 1964,
+    "website": "https://www.bose.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 8,
+  "fields": {
+    "name": "Brooks",
+    "slug": "brooks",
+    "description": "Brooks - Technology and innovation brand",
+    "logo": "brand_logos/brooks.png",
+    "founded_year": 1985,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 9,
+  "fields": {
+    "name": "Dell",
+    "slug": "dell",
+    "description": "Computer technology company",
+    "logo": "brand_logos/dell.png",
+    "founded_year": 1984,
+    "website": "https://www.dell.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 10,
+  "fields": {
+    "name": "Fitbit",
+    "slug": "fitbit",
+    "description": "Fitbit - Technology and innovation brand",
+    "logo": "brand_logos/fitbit.png",
+    "founded_year": 1997,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 11,
+  "fields": {
+    "name": "Garmin",
+    "slug": "garmin",
+    "description": "Multinational technology company",
+    "logo": "brand_logos/garmin.png",
+    "founded_year": 1989,
+    "website": "https://www.garmin.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 12,
+  "fields": {
+    "name": "GoPro",
+    "slug": "gopro",
+    "description": "American technology company",
+    "logo": "brand_logos/gopro.png",
+    "founded_year": 2002,
+    "website": "https://www.gopro.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 13,
+  "fields": {
+    "name": "Google",
+    "slug": "google",
+    "description": "Google - Technology and innovation brand",
+    "logo": "brand_logos/google.png",
+    "founded_year": 2009,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 14,
+  "fields": {
+    "name": "HP",
+    "slug": "hp",
+    "description": "Multinational IT company",
+    "logo": "brand_logos/hp.png",
+    "founded_year": 1939,
+    "website": "https://www.hp.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 15,
+  "fields": {
+    "name": "Hoka",
+    "slug": "hoka",
+    "description": "Hoka - Technology and innovation brand",
+    "logo": "brand_logos/hoka.jpeg",
+    "founded_year": 1981,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 16,
+  "fields": {
+    "name": "JBL",
+    "slug": "jbl",
+    "description": "American audio equipment company",
+    "logo": "brand_logos/jbl.png",
+    "founded_year": 1946,
+    "website": "https://www.jbl.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 17,
+  "fields": {
+    "name": "LG",
+    "slug": "lg",
+    "description": "Multinational electronics company",
+    "logo": "brand_logos/lg.png",
+    "founded_year": 1958,
+    "website": "https://www.lg.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 18,
+  "fields": {
+    "name": "Lenovo",
+    "slug": "lenovo",
+    "description": "Multinational technology company",
+    "logo": "brand_logos/lenovo.jpeg",
+    "founded_year": 1984,
+    "website": "https://www.lenovo.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 19,
+  "fields": {
+    "name": "Logitech",
+    "slug": "logitech",
+    "description": "Logitech - Technology and innovation brand",
+    "logo": "brand_logos/logitech.png",
+    "founded_year": 2003,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 20,
+  "fields": {
+    "name": "Lululemon",
+    "slug": "lululemon",
+    "description": "Canadian athletic apparel retailer",
+    "logo": "brand_logos/lululemon.png",
+    "founded_year": 1998,
+    "website": "https://www.lululemon.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 21,
+  "fields": {
+    "name": "Microsoft",
+    "slug": "microsoft",
+    "description": "Multinational technology corporation",
+    "logo": "brand_logos/microsoft.png",
+    "founded_year": 1975,
+    "website": "https://www.microsoft.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 22,
+  "fields": {
+    "name": "Nike",
+    "slug": "nike",
+    "description": "Multinational corporation that designs, develops athletic wear",
+    "logo": "brand_logos/nike.png",
+    "founded_year": 1964,
+    "website": "https://www.nike.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 23,
+  "fields": {
+    "name": "OnePlus",
+    "slug": "oneplus",
+    "description": "OnePlus - Technology brand",
+    "logo": "brand_logos/oneplus.png",
+    "founded_year": 2013,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 24,
+  "fields": {
+    "name": "Puma",
+    "slug": "puma",
+    "description": "Multinational corporation that designs and manufactures athletic and casual footwear",
+    "logo": "brand_logos/puma.png",
+    "founded_year": 1948,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 25,
+  "fields": {
+    "name": "Razer",
+    "slug": "razer",
+    "description": "Razer - Technology and innovation brand",
+    "logo": "brand_logos/razer.png",
+    "founded_year": 1990,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 26,
+  "fields": {
+    "name": "Samsung",
+    "slug": "samsung",
+    "description": "Leading electronics manufacturer",
+    "logo": "brand_logos/samsung.png",
+    "founded_year": 1938,
+    "website": "https://www.samsung.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 27,
+  "fields": {
+    "name": "Sony",
+    "slug": "sony",
+    "description": "Multinational conglomerate",
+    "logo": "brand_logos/sony.png",
+    "founded_year": 1946,
+    "website": "https://www.sony.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 28,
+  "fields": {
+    "name": "Under Armour",
+    "slug": "under-armour",
+    "description": "American sports clothing and accessories manufacturer",
+    "logo": "brand_logos/under_armour.png",
+    "founded_year": 1996,
+    "website": "https://www.underarmour.com"
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 29,
+  "fields": {
+    "name": "brand1",
+    "slug": "brand1",
+    "description": "this is custom brand",
+    "logo": "brand_logos/under_armour_pogWXHg.png",
+    "founded_year": 2025,
+    "website": null
+  }
+},
+{
+  "model": "store.brand",
+  "pk": 31,
+  "fields": {
+    "name": "brand3",
+    "slug": "brand3",
+    "description": "brand3 is not important",
+    "logo": "brand_logos/under_armour_hRmpYpI.png",
+    "founded_year": 2025,
+    "website": null
+  }
+}
+]

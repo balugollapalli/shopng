@@ -1,0 +1,38 @@
+[
+{
+  "model": "store.useraddress",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "name": "deva",
+    "street_address": "ramalayam street",
+    "apartment_address": "23-4-4/1 ramalayam street",
+    "city": "chirala",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "address_type": "home",
+    "is_default": true,
+    "phone_number": "8639127093",
+    "created_at": "2025-04-06T17:45:21.196Z"
+  }
+},
+{
+  "model": "store.useraddress",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "name": "Bose QuietComfort Earbuds",
+    "street_address": "ramalayam street",
+    "apartment_address": "23-4-4/1 ramalayam street",
+    "city": "cvgtf",
+    "state": "ap",
+    "postal_code": "523155",
+    "country": "india",
+    "address_type": "home",
+    "is_default": false,
+    "phone_number": "8639127093",
+    "created_at": "2025-04-07T11:18:55.337Z"
+  }
+}
+]

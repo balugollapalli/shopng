@@ -1,0 +1,93 @@
+[
+{
+  "model": "store.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "product": 55,
+    "price": "989.99",
+    "quantity": 1,
+    "variation": 1,
+    "variation_name": "color",
+    "variation_value": "red"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 2,
+    "product": 55,
+    "price": "990.99",
+    "quantity": 1,
+    "variation": 2,
+    "variation_name": "size",
+    "variation_value": "large"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 3,
+    "product": 55,
+    "price": "989.99",
+    "quantity": 1,
+    "variation": 1,
+    "variation_name": "color",
+    "variation_value": "red"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 4,
+    "product": 1,
+    "price": "299.99",
+    "quantity": 1,
+    "variation": null,
+    "variation_name": null,
+    "variation_value": null
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 5,
+    "product": 55,
+    "price": "990.99",
+    "quantity": 1,
+    "variation": 2,
+    "variation_name": "size",
+    "variation_value": "large"
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 6,
+    "product": 3,
+    "price": "699.99",
+    "quantity": 1,
+    "variation": null,
+    "variation_name": null,
+    "variation_value": null
+  }
+},
+{
+  "model": "store.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 6,
+    "product": 2,
+    "price": "499.99",
+    "quantity": 1,
+    "variation": null,
+    "variation_name": null,
+    "variation_value": null
+  }
+}
+]

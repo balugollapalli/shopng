@@ -1,0 +1,1066 @@
+[
+{
+  "model": "store.product",
+  "pk": 1,
+  "fields": {
+    "brand": 10,
+    "category": 4,
+    "name": "Fitbit Sense",
+    "slug": "fitbit-sense",
+    "image": "product_images/fitbit_sense.jpeg",
+    "description": "",
+    "price": "299.99",
+    "original_price": "329.66",
+    "discount_percentage": 9,
+    "stock": 120,
+    "available": true,
+    "created": "2025-04-06T12:44:14.689Z",
+    "updated": "2025-04-08T07:52:11.149Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 2,
+  "fields": {
+    "brand": 11,
+    "category": 4,
+    "name": "Garmin Forerunner 955",
+    "slug": "garmin-forerunner-955",
+    "image": "product_images/Garmin_Forerunner_955.jpeg",
+    "description": "",
+    "price": "499.99",
+    "original_price": "549.44",
+    "discount_percentage": 9,
+    "stock": 80,
+    "available": true,
+    "created": "2025-04-06T12:44:14.708Z",
+    "updated": "2025-04-08T07:52:16.180Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 3,
+  "fields": {
+    "brand": 11,
+    "category": 4,
+    "name": "Garmin Fenix 7",
+    "slug": "garmin-fenix-7",
+    "image": "product_images/Garmin_Fenix_7.jpeg",
+    "description": "",
+    "price": "699.99",
+    "original_price": "744.67",
+    "discount_percentage": 6,
+    "stock": 60,
+    "available": true,
+    "created": "2025-04-06T12:44:14.722Z",
+    "updated": "2025-04-08T07:52:22.000Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 4,
+  "fields": {
+    "brand": 7,
+    "category": 3,
+    "name": "Bose SoundLink Revolve+",
+    "slug": "bose-soundlink-revolve",
+    "image": "product_images/Bose_SoundLink_Revolve.jpeg",
+    "description": "",
+    "price": "299.99",
+    "original_price": "329.66",
+    "discount_percentage": 9,
+    "stock": 80,
+    "available": true,
+    "created": "2025-04-06T12:44:14.736Z",
+    "updated": "2025-04-08T08:03:09.639Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 5,
+  "fields": {
+    "brand": 7,
+    "category": 3,
+    "name": "Bose QuietComfort 45",
+    "slug": "bose-quietcomfort-45",
+    "image": "product_images/Bose_QuietComfort_45.jpeg",
+    "description": "",
+    "price": "329.99",
+    "original_price": "379.30",
+    "discount_percentage": 13,
+    "stock": 90,
+    "available": true,
+    "created": "2025-04-06T12:44:14.753Z",
+    "updated": "2025-04-08T07:52:27.384Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 6,
+  "fields": {
+    "brand": 27,
+    "category": 3,
+    "name": "Sony WH-1000XM4",
+    "slug": "sony-wh-1000xm4",
+    "image": "product_images/Sony_WH-1000XM5_wpDanK7.jpeg",
+    "description": "",
+    "price": "279.99",
+    "original_price": "297.86",
+    "discount_percentage": 5,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:14.768Z",
+    "updated": "2025-04-08T07:52:38.845Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 7,
+  "fields": {
+    "brand": 8,
+    "category": 7,
+    "name": "Brooks Glycerin 19",
+    "slug": "brooks-glycerin-19",
+    "image": "product_images/Brooks_Glycerin_19.jpeg",
+    "description": "",
+    "price": "159.99",
+    "original_price": "179.76",
+    "discount_percentage": 11,
+    "stock": 180,
+    "available": true,
+    "created": "2025-04-06T12:44:14.784Z",
+    "updated": "2025-04-08T07:52:45.291Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 8,
+  "fields": {
+    "brand": 2,
+    "category": 7,
+    "name": "Adidas Solarboost 4",
+    "slug": "adidas-solarboost-4",
+    "image": "product_images/Adidas_Solarboost_4.jpeg",
+    "description": "",
+    "price": "149.99",
+    "original_price": "166.66",
+    "discount_percentage": 10,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:14.801Z",
+    "updated": "2025-04-08T07:55:14.690Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 9,
+  "fields": {
+    "brand": 2,
+    "category": 7,
+    "name": "Adidas Ultraboost 22",
+    "slug": "adidas-ultraboost-22",
+    "image": "product_images/Adidas_Ultraboost_22.jpeg",
+    "description": "",
+    "price": "179.99",
+    "original_price": "199.99",
+    "discount_percentage": 10,
+    "stock": 250,
+    "available": true,
+    "created": "2025-04-06T12:44:14.818Z",
+    "updated": "2025-04-08T07:52:59.758Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 10,
+  "fields": {
+    "brand": 22,
+    "category": 7,
+    "name": "Nike Zoom Alphafly NEXT%",
+    "slug": "nike-zoom-alphafly-next",
+    "image": "product_images/Nike_Zoom_Alphafly_NEXT.jpeg",
+    "description": "",
+    "price": "275.00",
+    "original_price": "298.91",
+    "discount_percentage": 7,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:14.835Z",
+    "updated": "2025-04-08T08:02:45.091Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 11,
+  "fields": {
+    "brand": 22,
+    "category": 7,
+    "name": "Nike Air Zoom Pegasus 39",
+    "slug": "nike-air-zoom-pegasus-39",
+    "image": "product_images/Nike_Air_Zoom_Pegasus_39.jpeg",
+    "description": "",
+    "price": "129.99",
+    "original_price": "146.06",
+    "discount_percentage": 11,
+    "stock": 300,
+    "available": true,
+    "created": "2025-04-06T12:44:14.853Z",
+    "updated": "2025-04-08T08:02:22.019Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 12,
+  "fields": {
+    "brand": 18,
+    "category": 6,
+    "name": "Lenovo Yoga 9i",
+    "slug": "lenovo-yoga-9i",
+    "image": "product_images/Lenovo_Yoga_9i.jpeg",
+    "description": "",
+    "price": "1299.99",
+    "original_price": "1444.43",
+    "discount_percentage": 10,
+    "stock": 90,
+    "available": true,
+    "created": "2025-04-06T12:44:14.871Z",
+    "updated": "2025-04-08T08:02:05.096Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 13,
+  "fields": {
+    "brand": 9,
+    "category": 6,
+    "name": "Dell Inspiron 16",
+    "slug": "dell-inspiron-16",
+    "image": "product_images/Dell_Inspiron_16.jpeg",
+    "description": "",
+    "price": "799.99",
+    "original_price": "898.87",
+    "discount_percentage": 11,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:14.889Z",
+    "updated": "2025-04-08T08:01:42.273Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 14,
+  "fields": {
+    "brand": 4,
+    "category": 6,
+    "name": "MacBook Air M2",
+    "slug": "macbook-air-m2",
+    "image": "product_images/MacBook_Air_M2.jpeg",
+    "description": "",
+    "price": "1199.99",
+    "original_price": "1290.31",
+    "discount_percentage": 7,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:14.909Z",
+    "updated": "2025-04-08T08:01:48.226Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 15,
+  "fields": {
+    "brand": 4,
+    "category": 6,
+    "name": "MacBook Pro 16-inch M2",
+    "slug": "macbook-pro-16-inch-m2",
+    "image": "product_images/MacBook_Pro_16-inch_M2.jpeg",
+    "description": "",
+    "price": "2499.99",
+    "original_price": "2688.16",
+    "discount_percentage": 7,
+    "stock": 75,
+    "available": true,
+    "created": "2025-04-06T12:44:14.930Z",
+    "updated": "2025-04-08T08:01:16.650Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 16,
+  "fields": {
+    "brand": 13,
+    "category": 9,
+    "name": "Google Pixel 6a",
+    "slug": "google-pixel-6a",
+    "image": "product_images/Google_Pixel_6_Pro_mIPsYis.jpeg",
+    "description": "",
+    "price": "449.99",
+    "original_price": "499.99",
+    "discount_percentage": 10,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:14.950Z",
+    "updated": "2025-04-08T08:01:07.645Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 17,
+  "fields": {
+    "brand": 13,
+    "category": 9,
+    "name": "Google Pixel 7 Pro",
+    "slug": "google-pixel-7-pro",
+    "image": "product_images/Google_Pixel_7_Pro.jpeg",
+    "description": "",
+    "price": "899.99",
+    "original_price": "999.99",
+    "discount_percentage": 10,
+    "stock": 190,
+    "available": true,
+    "created": "2025-04-06T12:44:14.971Z",
+    "updated": "2025-04-08T08:01:01.573Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 18,
+  "fields": {
+    "brand": 26,
+    "category": 9,
+    "name": "Samsung Galaxy Z Fold 4",
+    "slug": "samsung-galaxy-z-fold-4",
+    "image": "product_images/Samsung_Galaxy_Z_Fold_4.jpeg",
+    "description": "",
+    "price": "1799.99",
+    "original_price": "1914.88",
+    "discount_percentage": 6,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:14.993Z",
+    "updated": "2025-04-08T08:00:56.405Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 19,
+  "fields": {
+    "brand": 26,
+    "category": 9,
+    "name": "Samsung Galaxy A53",
+    "slug": "samsung-galaxy-a53",
+    "image": "product_images/Samsung_Galaxy_A53.jpeg",
+    "description": "",
+    "price": "449.99",
+    "original_price": "499.99",
+    "discount_percentage": 10,
+    "stock": 250,
+    "available": true,
+    "created": "2025-04-06T12:44:15.013Z",
+    "updated": "2025-04-08T08:00:50.954Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 20,
+  "fields": {
+    "brand": 4,
+    "category": 9,
+    "name": "iPhone SE",
+    "slug": "iphone-se",
+    "image": "product_images/iPhone_SE.jpeg",
+    "description": "",
+    "price": "429.99",
+    "original_price": "477.77",
+    "discount_percentage": 10,
+    "stock": 180,
+    "available": true,
+    "created": "2025-04-06T12:44:15.035Z",
+    "updated": "2025-04-08T08:00:29.763Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 21,
+  "fields": {
+    "brand": 4,
+    "category": 9,
+    "name": "iPhone 14",
+    "slug": "iphone-14",
+    "image": "product_images/iPhone_14.jpeg",
+    "description": "",
+    "price": "799.99",
+    "original_price": "898.87",
+    "discount_percentage": 11,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.055Z",
+    "updated": "2025-04-08T08:00:36.885Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 22,
+  "fields": {
+    "brand": 4,
+    "category": 9,
+    "name": "iPhone 14 Pro Max",
+    "slug": "iphone-14-pro-max",
+    "image": "product_images/iPhone_14_Pro_Max.jpeg",
+    "description": "",
+    "price": "1099.99",
+    "original_price": "1195.64",
+    "discount_percentage": 7,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.075Z",
+    "updated": "2025-04-08T08:00:44.727Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 23,
+  "fields": {
+    "brand": 11,
+    "category": 4,
+    "name": "Garmin Venu 2",
+    "slug": "garmin-venu-2",
+    "image": "product_images/Garmin_Venu_2.jpeg",
+    "description": "",
+    "price": "399.99",
+    "original_price": "449.43",
+    "discount_percentage": 11,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.094Z",
+    "updated": "2025-04-08T07:59:54.876Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 24,
+  "fields": {
+    "brand": 10,
+    "category": 4,
+    "name": "Fitbit Charge 5",
+    "slug": "fitbit-charge-5",
+    "image": "product_images/Fitbit_Charge_5.jpeg",
+    "description": "",
+    "price": "179.99",
+    "original_price": "199.99",
+    "discount_percentage": 10,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.115Z",
+    "updated": "2025-04-08T08:00:00.705Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 25,
+  "fields": {
+    "brand": 6,
+    "category": 3,
+    "name": "Beats Studio3 Wireless",
+    "slug": "beats-studio3-wireless",
+    "image": "product_images/Beats_Studio3_Wireless.jpeg",
+    "description": "",
+    "price": "349.99",
+    "original_price": "376.33",
+    "discount_percentage": 6,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:15.138Z",
+    "updated": "2025-04-08T08:00:07.538Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 26,
+  "fields": {
+    "brand": 27,
+    "category": 3,
+    "name": "Sony WH-1000XM5",
+    "slug": "sony-wh-1000xm5",
+    "image": "product_images/Sony_WH-1000XM5.jpeg",
+    "description": "",
+    "price": "399.99",
+    "original_price": "449.43",
+    "discount_percentage": 11,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.156Z",
+    "updated": "2025-04-08T07:59:23.500Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 27,
+  "fields": {
+    "brand": 22,
+    "category": 2,
+    "name": "Nike Pro Compression Top",
+    "slug": "nike-pro-compression-top",
+    "image": "product_images/Nike_Pro_Compression_Top.jpeg",
+    "description": "",
+    "price": "49.99",
+    "original_price": "64.92",
+    "discount_percentage": 23,
+    "stock": 250,
+    "available": true,
+    "created": "2025-04-06T12:44:15.175Z",
+    "updated": "2025-04-08T07:59:02.252Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 28,
+  "fields": {
+    "brand": 20,
+    "category": 2,
+    "name": "Lululemon Align Leggings",
+    "slug": "lululemon-align-leggings",
+    "image": "product_images/Lululemon_Align_Leggings.jpeg",
+    "description": "",
+    "price": "98.00",
+    "original_price": "107.69",
+    "discount_percentage": 9,
+    "stock": 300,
+    "available": true,
+    "created": "2025-04-06T12:44:15.193Z",
+    "updated": "2025-04-08T07:58:55.647Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 29,
+  "fields": {
+    "brand": 15,
+    "category": 7,
+    "name": "Hoka One One Clifton 8",
+    "slug": "hoka-one-one-clifton-8",
+    "image": "product_images/Hoka_One_One_Clifton_8.jpeg",
+    "description": "",
+    "price": "159.99",
+    "original_price": "179.76",
+    "discount_percentage": 11,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.213Z",
+    "updated": "2025-04-08T07:58:47.167Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 30,
+  "fields": {
+    "brand": 8,
+    "category": 7,
+    "name": "Brooks Ghost 14",
+    "slug": "brooks-ghost-14",
+    "image": "product_images/Brooks_Ghost_14.jpeg",
+    "description": "",
+    "price": "139.99",
+    "original_price": "159.08",
+    "discount_percentage": 12,
+    "stock": 160,
+    "available": true,
+    "created": "2025-04-06T12:44:15.237Z",
+    "updated": "2025-04-08T07:57:35.602Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 31,
+  "fields": {
+    "brand": 14,
+    "category": 6,
+    "name": "HP Spectre x360",
+    "slug": "hp-spectre-x360",
+    "image": "product_images/HP_Spectre_x360.jpeg",
+    "description": "",
+    "price": "1299.99",
+    "original_price": "1444.43",
+    "discount_percentage": 9,
+    "stock": 70,
+    "available": true,
+    "created": "2025-04-06T12:44:15.256Z",
+    "updated": "2025-04-08T07:57:30.996Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 32,
+  "fields": {
+    "brand": 5,
+    "category": 6,
+    "name": "Asus ROG Zephyrus G14",
+    "slug": "asus-rog-zephyrus-g14",
+    "image": "product_images/Asus_ROG_Zephyrus_G14.jpeg",
+    "description": "",
+    "price": "1399.99",
+    "original_price": "1590.90",
+    "discount_percentage": 12,
+    "stock": 50,
+    "available": true,
+    "created": "2025-04-06T12:44:15.281Z",
+    "updated": "2025-04-08T07:57:26.428Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 33,
+  "fields": {
+    "brand": 18,
+    "category": 6,
+    "name": "Lenovo ThinkPad X1 Carbon",
+    "slug": "lenovo-thinkpad-x1-carbon",
+    "image": "product_images/Lenovo_ThinkPad_X1_Carbon.jpeg",
+    "description": "",
+    "price": "1499.99",
+    "original_price": "1685.38",
+    "discount_percentage": 11,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.306Z",
+    "updated": "2025-04-08T07:57:07.758Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 34,
+  "fields": {
+    "brand": 23,
+    "category": 9,
+    "name": "OnePlus 10 Pro",
+    "slug": "oneplus-10-pro",
+    "image": "product_images/OnePlus_10_Pro.jpeg",
+    "description": "",
+    "price": "799.99",
+    "original_price": "898.87",
+    "discount_percentage": 11,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.321Z",
+    "updated": "2025-04-08T07:57:39.150Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 35,
+  "fields": {
+    "brand": 13,
+    "category": 9,
+    "name": "Google Pixel 6 Pro",
+    "slug": "google-pixel-6-pro",
+    "image": "product_images/Google_Pixel_6_Pro.jpeg",
+    "description": "",
+    "price": "899.99",
+    "original_price": "999.99",
+    "discount_percentage": 10,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.337Z",
+    "updated": "2025-04-08T07:57:16.085Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 36,
+  "fields": {
+    "brand": 26,
+    "category": 9,
+    "name": "Samsung Galaxy S22 Ultra",
+    "slug": "samsung-galaxy-s22-ultra",
+    "image": "product_images/Samsung_Galaxy_S22_Ultra.jpeg",
+    "description": "",
+    "price": "1199.99",
+    "original_price": "1290.31",
+    "discount_percentage": 6,
+    "stock": 120,
+    "available": true,
+    "created": "2025-04-06T12:44:15.352Z",
+    "updated": "2025-04-08T07:57:11.419Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 37,
+  "fields": {
+    "brand": 3,
+    "category": 8,
+    "name": "Amazon Echo Show 10",
+    "slug": "amazon-echo-show-10",
+    "image": "product_images/Amazon_Echo_Show_10.jpeg",
+    "description": "",
+    "price": "249.99",
+    "original_price": "324.66",
+    "discount_percentage": 22,
+    "stock": 180,
+    "available": true,
+    "created": "2025-04-06T12:44:15.368Z",
+    "updated": "2025-04-08T07:56:42.810Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 38,
+  "fields": {
+    "brand": 13,
+    "category": 8,
+    "name": "Google Nest Hub",
+    "slug": "google-nest-hub",
+    "image": "product_images/Google_Nest_Hub.jpeg",
+    "description": "",
+    "price": "99.99",
+    "original_price": "129.86",
+    "discount_percentage": 23,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.385Z",
+    "updated": "2025-04-08T07:57:00.500Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 39,
+  "fields": {
+    "brand": 19,
+    "category": 5,
+    "name": "Logitech G Pro Wireless Mouse",
+    "slug": "logitech-g-pro-wireless-mouse",
+    "image": "product_images/Logitech_G_Pro_Wireless_Mouse.jpeg",
+    "description": "",
+    "price": "129.99",
+    "original_price": "149.41",
+    "discount_percentage": 13,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:15.404Z",
+    "updated": "2025-04-08T07:56:33.723Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 40,
+  "fields": {
+    "brand": 25,
+    "category": 5,
+    "name": "Razer BlackWidow V3",
+    "slug": "razer-blackwidow-v3",
+    "image": "product_images/Razer_BlackWidow_V3.jpeg",
+    "description": "",
+    "price": "139.99",
+    "original_price": "168.66",
+    "discount_percentage": 17,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.421Z",
+    "updated": "2025-04-08T07:56:30.076Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 41,
+  "fields": {
+    "brand": 26,
+    "category": 10,
+    "name": "Samsung Galaxy Buds Pro",
+    "slug": "samsung-galaxy-buds-pro",
+    "image": "product_images/Samsung_Galaxy_Buds_Pro.jpeg",
+    "description": "",
+    "price": "199.99",
+    "original_price": "229.87",
+    "discount_percentage": 13,
+    "stock": 180,
+    "available": true,
+    "created": "2025-04-06T12:44:15.439Z",
+    "updated": "2025-04-08T07:56:26.610Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 42,
+  "fields": {
+    "brand": 4,
+    "category": 10,
+    "name": "Apple AirPods Pro",
+    "slug": "apple-airpods-pro",
+    "image": "product_images/Apple_AirPods_Pro.jpeg",
+    "description": "",
+    "price": "249.99",
+    "original_price": "277.77",
+    "discount_percentage": 10,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.457Z",
+    "updated": "2025-04-08T07:56:22.865Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 43,
+  "fields": {
+    "brand": 12,
+    "category": 1,
+    "name": "GoPro HERO10 Black",
+    "slug": "gopro-hero10-black",
+    "image": "product_images/GoPro_HERO10_Black.jpeg",
+    "description": "",
+    "price": "399.99",
+    "original_price": "449.43",
+    "discount_percentage": 11,
+    "stock": 75,
+    "available": true,
+    "created": "2025-04-06T12:44:15.475Z",
+    "updated": "2025-04-08T07:56:17.441Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 44,
+  "fields": {
+    "brand": 4,
+    "category": 4,
+    "name": "Apple Watch Series 7",
+    "slug": "apple-watch-series-7",
+    "image": "product_images/Apple_Watch_Series_7.jpeg",
+    "description": "",
+    "price": "399.99",
+    "original_price": "425.52",
+    "discount_percentage": 5,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.492Z",
+    "updated": "2025-04-08T07:56:11.405Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 45,
+  "fields": {
+    "brand": 11,
+    "category": 4,
+    "name": "Garmin Forerunner 945",
+    "slug": "garmin-forerunner-945",
+    "image": "product_images/Garmin_Forerunner_945.jpeg",
+    "description": "",
+    "price": "549.99",
+    "original_price": "597.82",
+    "discount_percentage": 8,
+    "stock": 50,
+    "available": true,
+    "created": "2025-04-06T12:44:15.509Z",
+    "updated": "2025-04-08T07:56:07.822Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 46,
+  "fields": {
+    "brand": 16,
+    "category": 3,
+    "name": "JBL Flip 6",
+    "slug": "jbl-flip-6",
+    "image": "product_images/JBL_Flip_6.jpeg",
+    "description": "",
+    "price": "129.99",
+    "original_price": "146.06",
+    "discount_percentage": 11,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:15.525Z",
+    "updated": "2025-04-08T07:53:40.121Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 47,
+  "fields": {
+    "brand": 7,
+    "category": 3,
+    "name": "Bose QuietComfort Earbuds",
+    "slug": "bose-quietcomfort-earbuds",
+    "image": "product_images/Bose_QuietComfort_Earbuds.jpeg",
+    "description": "",
+    "price": "279.99",
+    "original_price": "321.83",
+    "discount_percentage": 13,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.541Z",
+    "updated": "2025-04-08T07:53:33.044Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 48,
+  "fields": {
+    "brand": 28,
+    "category": 2,
+    "name": "Under Armour Compression Leggings",
+    "slug": "under-armour-compression-leggings",
+    "image": "product_images/Under_Armour_Compression_Leggings.jpeg",
+    "description": "",
+    "price": "49.99",
+    "original_price": "64.09",
+    "discount_percentage": 22,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.558Z",
+    "updated": "2025-04-08T07:53:26.393Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 49,
+  "fields": {
+    "brand": 22,
+    "category": 2,
+    "name": "Nike Dri-FIT T-Shirt",
+    "slug": "nike-dri-fit-t-shirt",
+    "image": "product_images/Nike_Dri-FIT_T-Shirt.jpeg",
+    "description": "",
+    "price": "29.99",
+    "original_price": "37.49",
+    "discount_percentage": 20,
+    "stock": 300,
+    "available": true,
+    "created": "2025-04-06T12:44:15.574Z",
+    "updated": "2025-04-08T08:03:41.135Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 50,
+  "fields": {
+    "brand": 2,
+    "category": 7,
+    "name": "Adidas Ultraboost",
+    "slug": "adidas-ultraboost",
+    "image": "product_images/Adidas_Ultraboost.jpeg",
+    "description": "",
+    "price": "179.99",
+    "original_price": "199.99",
+    "discount_percentage": 10,
+    "stock": 180,
+    "available": true,
+    "created": "2025-04-06T12:44:15.591Z",
+    "updated": "2025-04-08T07:55:56.843Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 51,
+  "fields": {
+    "brand": 22,
+    "category": 7,
+    "name": "Nike Air Zoom Pegasus",
+    "slug": "nike-air-zoom-pegasus",
+    "image": "product_images/Nike_Air_Zoom_Pegasus.jpeg",
+    "description": "",
+    "price": "129.99",
+    "original_price": "158.52",
+    "discount_percentage": 17,
+    "stock": 200,
+    "available": true,
+    "created": "2025-04-06T12:44:15.609Z",
+    "updated": "2025-04-08T07:53:16.049Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 52,
+  "fields": {
+    "brand": 9,
+    "category": 6,
+    "name": "Dell XPS 15",
+    "slug": "dell-xps-15",
+    "image": "product_images/Dell_XPS_15.jpeg",
+    "description": "",
+    "price": "1599.99",
+    "original_price": "1797.74",
+    "discount_percentage": 10,
+    "stock": 75,
+    "available": true,
+    "created": "2025-04-06T12:44:15.627Z",
+    "updated": "2025-04-08T07:53:12.058Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 53,
+  "fields": {
+    "brand": 4,
+    "category": 6,
+    "name": "MacBook Pro",
+    "slug": "macbook-pro",
+    "image": "product_images/MacBook_Pro.jpeg",
+    "description": "",
+    "price": "1999.99",
+    "original_price": "2247.18",
+    "discount_percentage": 11,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:15.643Z",
+    "updated": "2025-04-08T07:51:50.627Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 54,
+  "fields": {
+    "brand": 26,
+    "category": 9,
+    "name": "Samsung Galaxy S21",
+    "slug": "samsung-galaxy-s21",
+    "image": "product_images/Samsung_Galaxy_S21.jpeg",
+    "description": "",
+    "price": "799.99",
+    "original_price": "879.11",
+    "discount_percentage": 9,
+    "stock": 150,
+    "available": true,
+    "created": "2025-04-06T12:44:15.660Z",
+    "updated": "2025-04-08T07:51:47.362Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 55,
+  "fields": {
+    "brand": 4,
+    "category": 9,
+    "name": "iPhone 13 Pro",
+    "slug": "iphone-13-pro",
+    "image": "product_images/iPhone_13_Pro.jpeg",
+    "description": "",
+    "price": "999.99",
+    "original_price": "1098.89",
+    "discount_percentage": 9,
+    "stock": 100,
+    "available": true,
+    "created": "2025-04-06T12:44:15.679Z",
+    "updated": "2025-04-08T07:51:33.183Z"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 56,
+  "fields": {
+    "brand": 29,
+    "category": 11,
+    "name": "item1",
+    "slug": "item1",
+    "image": "product_images/Under_Armour_Compression_Leggings_z7YbP5m.jpeg",
+    "description": "this is custom product",
+    "price": "10.00",
+    "original_price": "20.00",
+    "discount_percentage": 50,
+    "stock": 10,
+    "available": true,
+    "created": "2025-04-07T05:37:49.125Z",
+    "updated": "2025-04-08T07:50:00.397Z"
+  }
+}
+]

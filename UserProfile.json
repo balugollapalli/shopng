@@ -1,0 +1,46 @@
+[
+{
+  "model": "accounts.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "date_of_birth": "2002-03-25",
+    "profile_photo": "profile_photos/IMG-20250325-WA0065_5Q0mHyX.jpg",
+    "address": "23-4-4/1, ramalayam street, chirala.",
+    "phone_number": "8639127093"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "date_of_birth": "2003-05-25",
+    "profile_photo": "profile_photos/Nike_Dri-FIT_T-Shirt.jpeg",
+    "address": "23-4-4/1, ramalayam street",
+    "phone_number": "9876543210"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "date_of_birth": "2005-03-25",
+    "profile_photo": "profile_photos/IMG-20250325-WA0065_00EzC5U.jpg",
+    "address": "23",
+    "phone_number": "8639127093"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": 5,
+    "date_of_birth": "2025-03-25",
+    "profile_photo": "profile_photos/IMG-20250325-WA0065_PHCwwJt.jpg",
+    "address": "000",
+    "phone_number": "8639127093"
+  }
+}
+]

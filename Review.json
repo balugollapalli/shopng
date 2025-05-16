@@ -1,0 +1,26 @@
+[
+{
+  "model": "store.review",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "product": 3,
+    "order": 6,
+    "rating": 4,
+    "review_text": "this is goood",
+    "created_at": "2025-04-08T07:15:35.110Z"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "product": 2,
+    "order": 6,
+    "rating": 3,
+    "review_text": "not bad",
+    "created_at": "2025-04-08T07:15:42.080Z"
+  }
+}
+]

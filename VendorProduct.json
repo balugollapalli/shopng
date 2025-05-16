@@ -1,0 +1,10 @@
+[
+{
+  "model": "providers.vendorproduct",
+  "pk": 1,
+  "fields": {
+    "vendor": 5,
+    "product": 56
+  }
+}
+]

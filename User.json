@@ -1,0 +1,102 @@
+[
+{
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ttbUITiASP7Ya1gD9ogZoC$CHJim4CZWRLY0XJNCr0k2csnSEkJF3vJ724Xh/R17G8=",
+    "last_login": "2025-04-08T07:49:29.389Z",
+    "is_superuser": true,
+    "first_name": "admin",
+    "last_name": "admin",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-04-06T12:39:24.980Z",
+    "username": "admin",
+    "email": "djangoappdevelop@gmail.com",
+    "is_email_verified": false,
+    "first_login": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$FY35tAdhp2yljG9XHoCGaG$BCO8xohqEFvSucRSa/BBkE5bor2F3IPpBXRjIzNDbmQ=",
+    "last_login": "2025-04-08T07:13:20.779Z",
+    "is_superuser": false,
+    "first_name": "deva",
+    "last_name": "das",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-06T17:42:21.220Z",
+    "username": "devadas",
+    "email": "imdeva.you@gmail.com",
+    "is_email_verified": true,
+    "first_login": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$PHHDrPDT1LAUCfEqM9XVNw$F6kaHGzhLlO63tjP+OMGeG3lKB6BU3tTd6bgHpbcFJA=",
+    "last_login": "2025-04-06T19:58:14.909Z",
+    "is_superuser": false,
+    "first_name": "Naga",
+    "last_name": "Gollapalli",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-06T19:48:47.488Z",
+    "username": "naga",
+    "email": "balug98076@gmail.com",
+    "is_email_verified": true,
+    "first_login": false,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$IJicvH1KSDxLl5xpxg7fNs$ZEz1i8VK9VlTI7jXP+5u5+Ew6Ys0wXs42Lcrg7uxt3Y=",
+    "last_login": "2025-04-07T12:19:07.100Z",
+    "is_superuser": false,
+    "first_name": "bala",
+    "last_name": "subrahanyam",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-07T12:16:25.254Z",
+    "username": "nagabala",
+    "email": "nbsubrahmanyam.g@gmail.com",
+    "is_email_verified": true,
+    "first_login": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$zN2ZNFRnx88yxd0NpISmIw$zOcbMP33/VbVuix3daAYIZAy/gtFZ+1A4d61DPizZvY=",
+    "last_login": "2025-04-08T07:38:06.892Z",
+    "is_superuser": false,
+    "first_name": "varun",
+    "last_name": "dev",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-08T07:36:37.939Z",
+    "username": "varundev",
+    "email": "balugollapalli.2002@gmail.com",
+    "is_email_verified": true,
+    "first_login": false,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

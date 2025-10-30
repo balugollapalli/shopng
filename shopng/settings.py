@@ -88,9 +88,17 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES['default'] = dj_database_url.parse("postgresql://shopng2_db_user:JLB8bi8abcmI6YLkrZQrlmbO2xMNyJur@dpg-d0jehr3e5dus73ce56k0-a.oregon-postgres.render.com/shopng2_db")
+#DATABASES['default'] = dj_database_url.parse("postgresql://shopng2_db_user:JLB8bi8abcmI6YLkrZQrlmbO2xMNyJur@dpg-d0jehr3e5dus73ce56k0-a.oregon-postgres.render.com/shopng2_db")
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
